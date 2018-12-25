@@ -49,13 +49,10 @@
     <Compile Include="Day11.cs" />
     <Compile Include="Day10.cs" />
     <Compile Include="Day09.cs" />
-    <Compile Include="Day04y.cs" />
+    <Compile Include="Day04.cs" />
     <Compile Include="Day03.cs" />
     <Compile Include="Day02.cs" />
     <Compile Include="Day01.cs" />
-    <Compile Include="Day17.cs" />
-    <Compile Include="Day16.cs" />
-    <Compile Include="Day15.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

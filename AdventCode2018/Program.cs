@@ -24,12 +24,11 @@ namespace AdventCode2018
             //Day05.Test1("day5_1.txt");
             //Day05.Test2("day5_test1.txt");
             //Day05.Test2("day5_1.txt");
-            //Day13.Test1(@"inputs\day13_test1.txt");
-            //Day13.Test1(@"inputs\day13_1.txt");
-            //Day13.Test2(@"inputs\day13_test2.txt");
-            //Day13.Test2(@"inputs\day13_1.txt");
-            Day13.Test(@"inputs\day13_1.txt");
-
+            Day13.Test1(@"inputs\day13_test1.txt");
+            Day13.Test1(@"inputs\day13_1.txt");
+            Day13.Test2(@"inputs\day13_test2.txt");
+            Day13.Test2(@"inputs\day13_1.txt");
+            
             Console.ReadKey();
         }
         

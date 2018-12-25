@@ -20,8 +20,7 @@ namespace AdventCode2018
             public Dir CurDir { get; set; }
             public Dir NextDir { get; set; }
             public Point Pos;// { get; set; }
-            public bool Crashed = false;
-
+            
 
             public Cart(int x, int y, int dir)
             {
@@ -85,16 +84,15 @@ namespace AdventCode2018
 
                 CurDir = dir;
             }
-            
+
             public override string ToString()
             {
                 return string.Format("{0},{1} dir: {2}, next: {3}", Pos.X, Pos.Y, CurDir, NextDir);
             }
-            
+
         }
 
-
-
+        
         public static List<Cart> LoadCarts(string[] map)
         {
             List<Cart> carts = new List<Cart>();
@@ -118,7 +116,7 @@ namespace AdventCode2018
             return carts;
         }
 
-        
+
         public static Point Test1(string file)
         {
             string[] map = File.ReadAllLines(file);
@@ -129,7 +127,7 @@ namespace AdventCode2018
                 foreach (Cart cart in carts)
                 {
                     cart.Move(map[cart.Pos.Y][cart.Pos.X]);
-                    Console.WriteLine(cart);
+                    //Console.WriteLine(cart);
                 }
 
                 var groups = carts.GroupBy(i => i.Pos).OrderByDescending(g => g.Count());
@@ -155,81 +153,33 @@ namespace AdventCode2018
                 foreach (Cart cart in carts.OrderBy(c => c.Pos.Y).ThenBy(c => c.Pos.X).ToList())
                 {
                     if (carts.IndexOf(cart) == -1)
+                    {
                         continue;
+                    }
 
                     cart.Move(map[cart.Pos.Y][cart.Pos.X]);
-                    Console.WriteLine("step {0} - move - {1}", step, cart);
+                    //Console.WriteLine("step {0} - move - {1}", step, cart);
 
                     var groups = carts.GroupBy(i => i.Pos).OrderByDescending(g => g.Count());
                     foreach (var grp in groups.Where(g => g.Count() > 1))
                     {
                         foreach (var c in grp)
                         {
-                            Console.WriteLine("step {0} - delete - {1}", step, c);
+                            //Console.WriteLine("step {0} - delete - {1}", step, c);
                             carts.Remove(c);
                         }
-
-                        if (carts.Count == 1)
-                        {
-                            Point p = carts.First().Pos;
-                            Console.WriteLine(p);
-                            return p;
-                        }
                     }
                 }
 
-                
-            }
-        }
-
-
-        public static Point Test(string file)
-        {
-            string[] map = File.ReadAllLines(file);
-            List<Cart> carts = LoadCarts(map);
-            Console.WriteLine("carts {0}", carts.Count);
-
-            int step = 0;
-            while (true)
-            {
-                step++;
-                
-                // Move all carts
-                carts = carts.Where(c => !c.Crashed).OrderBy(c => c.Pos.Y).ThenBy(c => c.Pos.X).ToList();
-                //carts = carts.Where(c => !c.Crashed).OrderBy(c => c.ToString()).ToList();
-                foreach (var cart in carts)
+                if (carts.Count == 1)
                 {
-                    cart.Move(map[cart.Pos.Y][cart.Pos.X]);
-
-                    bool result = carts.Where(c => !c.Crashed).Count(c => c.Pos.X == cart.Pos.X && c.Pos.Y == cart.Pos.Y) == 1;
-
-                    //Console.WriteLine("step {0} - move - {1}", step, cart);
-                    if (!result)
-                    {
-                        foreach (var item in carts.Where(c => c.Pos.X == cart.Pos.X && c.Pos.Y == cart.Pos.Y).OrderBy(c => c.ToString()))
-                        {
-                            Console.WriteLine("step {0} - delete - {1}", step, cart);
-                            item.Crashed = true;
-                        }
-                    }
-                }
-
-                foreach (Cart cart in carts.OrderBy(c => c.ToString()))
-                {
-                    //Console.WriteLine("step {0} - move - {1}", step, cart);
-                }
-
-                //PrintAll(map, carts.Where(c => !c.Crashed).ToList());
-                if (carts.Count(c => !c.Crashed) == 1)
-                {
-                    Point p = carts.Where(c => !c.Crashed).First().Pos;
+                    Point p = carts.First().Pos;
                     Console.WriteLine(p);
                     return p;
                 }
+
             }
-
         }
-
 
     }
 
