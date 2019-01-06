@@ -52,7 +52,6 @@ namespace AdventCode2018
             }
 
             long step = 0;
-            long prevStep = 0;
             LinkedListNode<int> e1 = list.AddLast(3);
             LinkedListNode<int> e2 = list.AddLast(7);
 
