@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2017 CS", "AdventCode2017\AdventOfCode2017 CS.csproj", "{4A2032D7-D679-4BC4-9CC0-E7D8C04E3E7B}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2018 CS", "AdventCode2018\AdventOfCode2018 CS.csproj", "{20110DC2-10F5-4D19-A88B-91C3BA274E4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAoC2018", "TestAoC2018\TestAoC2018.csproj", "{3C969DBB-EFC3-4147-B828-65B8081C6FAA}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "AdventOfCode2019 Python", "AdventOfCode2019 Python\AdventOfCode2019 Python.pyproj", "{F9F66764-D6CE-4828-BE90-9D0BF30E13E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,8 @@ Global
 		{3C969DBB-EFC3-4147-B828-65B8081C6FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C969DBB-EFC3-4147-B828-65B8081C6FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C969DBB-EFC3-4147-B828-65B8081C6FAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9F66764-D6CE-4828-BE90-9D0BF30E13E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9F66764-D6CE-4828-BE90-9D0BF30E13E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
