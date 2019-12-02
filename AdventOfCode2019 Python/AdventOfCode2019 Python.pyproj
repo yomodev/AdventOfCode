@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f9f66764-d6ce-4828-be90-9d0bf30e13e9</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>day01.py</StartupFile>
+    <StartupFile>day02.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,12 +21,14 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="day02.py" />
     <Compile Include="day01.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="inputs\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="inputs\day02_1.txt" />
     <Content Include="inputs\day01_1.txt">
       <SubType>Code</SubType>
     </Content>
