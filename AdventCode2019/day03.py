@@ -55,10 +55,10 @@ class Day03:
   return distance
 
 
- def GetFewestCombinesSteps(self):
-  distance = min(map(lambda p: sum(self.grid[p].values()), 
+ def GetFewestCombinedSteps(self):
+  steps = min(map(lambda p: sum(self.grid[p].values()), 
                      filter(lambda p: len(self.grid[p]) > 1, self.grid)))
-  return distance
+  return steps
 
 
 
@@ -92,23 +92,23 @@ print('test1', result)
 d = Day03()
 d.AddWire('R8,U5,L5,D3')
 d.AddWire('U7,R6,D4,L4')
-result = d.GetFewestCombinesSteps()
+result = d.GetFewestCombinedSteps()
 print('test 2.1', result, 'OK' if result == 30 else 'ERROR!')
 
 d = Day03()
 d.AddWire('R75,D30,R83,U83,L12,D49,R71,U7,L72')
 d.AddWire('U62,R66,U55,R34,D71,R55,D58,R83')
-result = d.GetFewestCombinesSteps()
+result = d.GetFewestCombinedSteps()
 print('test 2.2', result, 'OK' if result == 610 else 'ERROR!')
 
 d = Day03()
 d.AddWire('R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51')
 d.AddWire('U98,R91,D20,R16,D67,R40,U7,R15,U6,R7')
-result = d.GetFewestCombinesSteps()
+result = d.GetFewestCombinedSteps()
 print('test 2.3', result, 'OK' if result == 410 else 'ERROR!')
 
 d = Day03()
 d.AddWiresFromFile("inputs\Day03_1.txt")
-result = d.GetFewestCombinesSteps()
+result = d.GetFewestCombinedSteps()
 print('test2', result)
 
