@@ -1,5 +1,12 @@
 import sys
 
+class DIR:
+ UP = 'U'
+ DOWN = 'D'
+ LEFT = 'L'
+ RIGHT = 'R'
+
+
 class Day03:
 
  def __init__(self):
@@ -16,13 +23,13 @@ class Day03:
    direction = segment[0]
    size = int(segment[1::])
    for i in range(size):
-    if direction == 'R':
+    if direction == DIR.RIGHT:
      curPos = (curPos[0] +1, curPos[1])
-    elif direction == 'L':
+    elif direction == DIR.LEFT:
      curPos = (curPos[0] -1, curPos[1])
-    elif direction == 'U':
+    elif direction == DIR.UP:
      curPos = (curPos[0], curPos[1] -1)
-    elif direction == 'D':
+    elif direction == DIR.DOWN:
      curPos = (curPos[0], curPos[1] +1)
     
     #print(wireId, direction, i, curPos)
