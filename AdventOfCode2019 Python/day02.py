@@ -1,8 +1,13 @@
 import math
 
+class OP:
+ SUM = 1
+ MUL = 2
+ HALT = 99
+
 
 class Day02:
-
+ 
  def ArrayEqual(a, b):
   n = len(a)
   if (n != len(b)): 
@@ -18,16 +23,16 @@ class Day02:
  def RunIntcode(intcode):
   for x in range(0, len(intcode), 4):
    opcode = intcode[x]
-   if opcode == 99:
+   if opcode == OP.HALT:
     return intcode
    
    par1 = intcode[intcode[x +1]]
    par2 = intcode[intcode[x +2]]
    address = intcode[x +3]
 
-   if opcode == 1:
+   if opcode == OP.SUM:
     intcode[address] = par1 + par2
-   elif opcode == 2:
+   elif opcode == OP.MUL:
     intcode[address] = par1 * par2
 
   return intcode
