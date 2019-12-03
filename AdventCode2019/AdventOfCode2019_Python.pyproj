@@ -4,13 +4,17 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f9f66764-d6ce-4828-be90-9d0bf30e13e9</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>day03y.py</StartupFile>
+    <StartupFile>day03.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>AdventOfCode2019 Python</Name>
     <RootNamespace>AdventOfCode2019 Python</RootNamespace>
+    <TestFramework>pytest</TestFramework>
+    <UnitTestPattern>test*.py</UnitTestPattern>
+    <UnitTestRootDirectory>.</UnitTestRootDirectory>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,9 +25,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="day03y.py" />
     <Compile Include="day02.py" />
     <Compile Include="day01.py" />
+    <Compile Include="day03.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="inputs\" />
