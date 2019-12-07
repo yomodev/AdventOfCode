@@ -64,20 +64,28 @@ class Instruction:
 
 
 class IntcodeComputer:
- def __init__(self, memory):
+ def __init__(self, memory, phase = None):
   self.memory = memory
-  self.input = deque()
-  self.offset = 0
+  self.input = deque([phase] if phase is not None else [])
+  self.ip = 0
   self.output = []
   self.status = STATUS.READY
   
 
  def Run(self, input):
   self.input += input
+  while self.status != STATUS.COMPLETE:
+   self.RunWait()  
+  return self.output
+
+
+ def RunWait(self, input = []):
+  self.input += input
+  wout = []
 
   while True:
-   opcode = self.memory[self.offset]
-   rest = self.memory[self.offset +1:]
+   opcode = self.memory[self.ip]
+   rest = self.memory[self.ip +1:]
    instr = Instruction(opcode, rest)
    #print('self.offset', self.offset, opcode, instr.opcode)
    
@@ -100,15 +108,20 @@ class IntcodeComputer:
     #print('in', instr.parameters[0].value)
     if len(self.input) == 0:
      self.status = STATUS.WAIT
-     return -1
+     return wout
     inp = self.input.popleft()
     self.memory[par1] = inp
 
    elif instr.opcode == OP.OUTPUT:
     out = instr.GetValue(1, self.memory)
     self.output.append(out)
+    wout.append(out)
     #print('ou', out, instr.parameters[0].value)
     #print(out)
+
+    #self.status = STATUS.WAIT
+    #self.ip += 1+ len(instr.parameters)
+    #return out
 
    elif instr.opcode == OP.EQUALS:
     par1 = instr.GetValue(1, self.memory)
@@ -121,14 +134,14 @@ class IntcodeComputer:
     par1 = instr.GetValue(1, self.memory)
     par2 = instr.GetValue(2, self.memory)
     if par1 != 0:
-     self.offset = par2
+     self.ip = par2
      continue
 
    elif instr.opcode == OP.JUMP_IF_FALSE:
     par1 = instr.GetValue(1, self.memory)
     par2 = instr.GetValue(2, self.memory)
     if par1 == 0:
-     self.offset = par2
+     self.ip = par2
      continue
 
    elif instr.opcode == OP.LESS_THAN:
@@ -141,12 +154,11 @@ class IntcodeComputer:
    elif instr.opcode == OP.HALT:
     break
 
-   self.offset += 1+ len(instr.parameters)
-   if self.offset >= len(self.memory):
+   self.ip += 1+ len(instr.parameters)
+   if self.ip >= len(self.memory):
     break
 
   self.status = STATUS.COMPLETE
-  return self.output
 
 
 class AmplifierControllerSoftware:
@@ -170,20 +182,22 @@ class AmplifierControllerSoftware:
  def Loop(self, rang):
   d = {}
   for perm in itertools.permutations(rang, len(rang)):
-   #print(perm)
-   amp = [IntcodeComputer(list(self.memory)) for i in range(5)]
+   amp = [IntcodeComputer(list(self.memory), perm[i]) for i in range(5)]
    i = 0
-   input = [perm[i], 0]
-   out = [0]
+   input = [0]
+   
+   #print("perm", perm)
+   #print(i, "input", input)
    while True:
     ampX = amp[i]
-    ampX.output = []
-    ampX.Run(input)
-    i = (i +1) % 5
-    if ampX.status == STATUS.WAIT:
-     input = [perm[i]] + ampX.output
-    elif ampX.status == STATUS.COMPLETE:
+    if ampX.status == STATUS.COMPLETE:
      break
+    ampX.RunWait(input)
+    input = [ampX.output[-1]]
+    #print("out", out)
+    #print(i, input)
+    i = (i +1) % 5
+    
    d[amp[4].output[-1]] = perm
    
   result = max(d.keys())
@@ -196,17 +210,15 @@ class AmplifierControllerSoftware:
 class Day07:
 
  def Test1(input):
-  with open(input, 'r') as content_file: input = content_file.read()
-  intCode = [int(s) for s in input.split(',')]
+  intCode = [int(s) for s in open(input, 'r').readlines()[0].strip().split(',')]
   output = AmplifierControllerSoftware(intCode).Run(range(5))
   return output
 
  def Test2(input):
-  with open(input, 'r') as content_file: input = content_file.read()
-  intCode = [int(s) for s in input.split(',')]
+  intCode = [int(s) for s in open(input, 'r').readlines()[0].strip().split(',')]
   output = AmplifierControllerSoftware(intCode).Loop(range(5,10))
   return output
-
+"""
 # test 1
 result = AmplifierControllerSoftware([3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0]).Run(range(5))
 print('test 1.1', result, 'OK' if result[0] == 43210 else 'ERROR!')
@@ -221,7 +233,7 @@ print('test 1.3', result, 'OK' if result[0] == 65210 else 'ERROR!')
 
 result = Day07.Test1("inputs\Day07_1.txt")
 print('test1', result)
-
+"""
 # test 2
 result = AmplifierControllerSoftware([3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,
                                       1001,28,-1,28,1005,28,6,99,0,0,5]).Loop(range(5,10))
