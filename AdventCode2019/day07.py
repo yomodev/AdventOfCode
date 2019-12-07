@@ -79,9 +79,9 @@ class IntcodeComputer:
   return self.output
 
 
- def RunWait(self, input = []):
-  self.input += input
-  wout = []
+ def RunWait(self, input = None):
+  if input is not None:
+   self.input += [input]
 
   while True:
    opcode = self.memory[self.ip]
@@ -108,20 +108,15 @@ class IntcodeComputer:
     #print('in', instr.parameters[0].value)
     if len(self.input) == 0:
      self.status = STATUS.WAIT
-     return wout
+     return self.output[-1]
     inp = self.input.popleft()
     self.memory[par1] = inp
 
    elif instr.opcode == OP.OUTPUT:
     out = instr.GetValue(1, self.memory)
     self.output.append(out)
-    wout.append(out)
     #print('ou', out, instr.parameters[0].value)
     #print(out)
-
-    #self.status = STATUS.WAIT
-    #self.ip += 1+ len(instr.parameters)
-    #return out
 
    elif instr.opcode == OP.EQUALS:
     par1 = instr.GetValue(1, self.memory)
@@ -159,6 +154,7 @@ class IntcodeComputer:
     break
 
   self.status = STATUS.COMPLETE
+  return self.output[-1]
 
 
 class AmplifierControllerSoftware:
@@ -182,22 +178,19 @@ class AmplifierControllerSoftware:
  def Loop(self, rang):
   d = {}
   for perm in itertools.permutations(rang, len(rang)):
+   #print("perm", perm)
    amp = [IntcodeComputer(list(self.memory), perm[i]) for i in range(5)]
    i = 0
-   input = [0]
-   
-   #print("perm", perm)
+   input = 0
    #print(i, "input", input)
+
    while True:
     ampX = amp[i]
     if ampX.status == STATUS.COMPLETE:
      break
-    ampX.RunWait(input)
-    input = [ampX.output[-1]]
-    #print("out", out)
-    #print(i, input)
+    input = ampX.RunWait(input)
+    #print(i, "input", input)
     i = (i +1) % 5
-    
    d[amp[4].output[-1]] = perm
    
   result = max(d.keys())
@@ -218,7 +211,7 @@ class Day07:
   intCode = [int(s) for s in open(input, 'r').readlines()[0].strip().split(',')]
   output = AmplifierControllerSoftware(intCode).Loop(range(5,10))
   return output
-"""
+
 # test 1
 result = AmplifierControllerSoftware([3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0]).Run(range(5))
 print('test 1.1', result, 'OK' if result[0] == 43210 else 'ERROR!')
@@ -233,7 +226,7 @@ print('test 1.3', result, 'OK' if result[0] == 65210 else 'ERROR!')
 
 result = Day07.Test1("inputs\Day07_1.txt")
 print('test1', result)
-"""
+
 # test 2
 result = AmplifierControllerSoftware([3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,
                                       1001,28,-1,28,1005,28,6,99,0,0,5]).Loop(range(5,10))
