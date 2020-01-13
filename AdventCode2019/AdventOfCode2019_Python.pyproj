@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f9f66764-d6ce-4828-be90-9d0bf30e13e9</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>day06.py</StartupFile>
+    <StartupFile>day09.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -29,6 +29,7 @@
   <ItemGroup>
     <Compile Include="day02.py" />
     <Compile Include="day01.py" />
+    <Compile Include="day09.py" />
     <Compile Include="day08.py" />
     <Compile Include="day07.py" />
     <Compile Include="day06.py" />
@@ -41,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="inputs\day06_1.txt" />
+    <Content Include="inputs\day09_1.txt" />
     <Content Include="inputs\day08_1.txt" />
     <Content Include="inputs\day07_1.txt" />
     <Content Include="inputs\day05_1.txt" />
