@@ -9,7 +9,7 @@ namespace AdventOfCode2020CS
 {
     class Day01
     {
-        public static void Test1(string filePath)
+        public static void Test1a(string filePath)
         {
             Test1(File.ReadLines(filePath));
         }
@@ -36,6 +36,16 @@ namespace AdventOfCode2020CS
 
         Found:
             Console.WriteLine(result);
+        }
+
+        public static void Test1(string filePath)
+        {
+            Console.WriteLine(
+                File.ReadLines(filePath)
+                .Select(line => int.Parse(line)).ToArray()
+                .DifferentCombinations(2)
+                .Where(x => x.Sum() == 2020).FirstOrDefault()
+                .Aggregate(1, (acc, val) => acc * val));
         }
 
 
