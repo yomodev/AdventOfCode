@@ -13,6 +13,12 @@
     <None Update="inputs\day01_1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="inputs\day03_test1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="inputs\day03_1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="inputs\day02_1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
