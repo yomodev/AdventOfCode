@@ -13,7 +13,12 @@ namespace AdventOfCode2020CS
             //Day03.Test1(@"inputs\day03_test1.txt");
             //Day03.Test1(@"inputs\day03_1.txt");
             //Day03.Test2(@"inputs\day03_test1.txt");
-            Day03.Test2(@"inputs\day03_1.txt");
+            //Day03.Test2(@"inputs\day03_1.txt");
+            //Day04.Test1(@"inputs\day04_test1.txt");
+            //Day04.Test1(@"inputs\day04_1.txt");
+            //Day04.Test2(@"inputs\day04_test2.txt");
+            //Day04.Test2(@"inputs\day04_test3.txt");
+            Day04.Test2(@"inputs\day04_1.txt");
             //Console.ReadKey();
         }
     }
