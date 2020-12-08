@@ -14,8 +14,6 @@ namespace AdventOfCode2020CS
         }
 
 
-        //public static TResult Aggregate<TSource, TAccumulate, TResult>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, TAccumulate> func, Func<TAccumulate, TResult> resultSelector);
-
         public static long Multiply<TSource, TParam>(this IEnumerable<TSource> source, Func<TSource, TParam, long> func, TParam param)
         {
             return source.Aggregate(1L, (acc, item) => acc * func(item, param));
