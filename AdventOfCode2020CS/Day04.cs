@@ -7,10 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode2020CS
 {
-    class Day04
+    public class Day04
     {
-        
-        public static void Test1(string filePath)
+        public static int Test1(string filePath)
         {
             var req = new HashSet<string>("byr iyr eyr hgt hcl ecl pid cid".Split(' '));
             req.Remove("cid");
@@ -20,17 +19,18 @@ namespace AdventOfCode2020CS
                 .Select(x => new HashSet<string>(x))
                 .Where(x => req.Intersect(x).Count() == req.Count())
                 .Count();
-            //.ToList().ForEach(x=>Console.WriteLine(string.Join('-',x)));
 
-            Console.WriteLine(result);
+            return result;
         }
 
-        public static void Test2(string filePath)
+        public static int Test2(string filePath)
         {
             var req = new HashSet<string>("byr iyr eyr hgt hcl ecl pid cid".Split(' '));
             req.Remove("cid");
 
-            var result = File.ReadAllText(filePath).Split("\r\n\r\n").Select(x => x.Replace("\r\n", " ").Trim())
+            var result = File.ReadAllText(filePath)
+                .Split(Environment.NewLine + Environment.NewLine)
+                .Select(x => x.Replace(Environment.NewLine, " ").Trim())
                 .Select(x => x.Split(' ').ToDictionary(k => k.Split(':')[0], v => v.Split(':')[1]))
                 .Where(x => req.Except(x.Keys).Count() == 0)
                 // byr(Birth Year) - four digits; at least 1920 and at most 2002.
@@ -51,7 +51,8 @@ namespace AdventOfCode2020CS
                 // pid(Passport ID) - a nine - digit number, including leading zeroes.
                 .Where(x => x["pid"].Length == 9 && long.TryParse(x["pid"], out long pid) && pid > 0 && pid < 999999999)
                 .Count();
-            Console.WriteLine(result);
+
+            return result;
         }
 
         private static IEnumerable<string> Aggregate(IEnumerable<string> enumerable)

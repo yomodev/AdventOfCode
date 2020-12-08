@@ -7,7 +7,7 @@ namespace TestAoC2020CS
     public class UnitTest_day05
     {
         [TestMethod]
-        public void TestMethod1()
+        public void Test_GetSeatID()
         {
             var sid = Day05.GetSeatID("FBFBBFFRLR");
             Assert.AreEqual(357, sid);
@@ -20,6 +20,20 @@ namespace TestAoC2020CS
 
             sid = Day05.GetSeatID("BBFFBBFRLL");
             Assert.AreEqual(820, sid);
+        }
+
+        [TestMethod]
+        public void Test_1()
+        {
+            var result = Day05.Test1(@"inputs\day05_1.txt");
+            Assert.AreEqual(878, result);
+        }
+
+        [TestMethod]
+        public void Test_2()
+        {
+            var result = Day05.Test2(@"inputs\day05_1.txt");
+            Assert.AreEqual(504, result);
         }
     }
 }

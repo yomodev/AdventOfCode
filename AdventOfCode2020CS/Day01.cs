@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace AdventOfCode2020CS
 {
-    class Day01
+    public class Day01
     {
         public static void Test1a(string filePath)
         {
@@ -36,41 +36,28 @@ namespace AdventOfCode2020CS
             Console.WriteLine(result);
         }
 
-        public static void Test1(string filePath)
+        public static long Test1(string filePath)
         {
-            Console.WriteLine(
-                File.ReadLines(filePath)
+            var result = File.ReadLines(filePath)
                 .Select(line => int.Parse(line)).ToArray()
                 .DifferentCombinations(2)
                 .Where(x => x.Sum() == 2020).FirstOrDefault()
-                .Aggregate(1, (acc, val) => acc * val));
+                .Aggregate(1, (acc, val) => acc * val);
+
+            return result;
         }
 
-
-
-        public static void Test2(string filePath)
+        public static long Test2(string filePath)
         {
-            Console.WriteLine(
-                File.ReadLines(filePath)
+            var result = File.ReadLines(filePath)
                 .Select(line => int.Parse(line)).ToArray()
                 .DifferentCombinations(3)
                 .Where(x => x.Sum() == 2020).FirstOrDefault()
-                .Aggregate(1, (acc, val) => acc * val));
-        }
+                .Aggregate(1, (acc, val) => acc * val);
 
-
-        public static void Test2A(string filePath)
-        {
-            var entries = File.ReadLines(filePath).Select(line => int.Parse(line)).ToList();
-            
-            entries.ForEach(x => entries.ForEach(y => entries.ForEach(z =>
-            {
-                if (x != y && y != z && x != z && x + y + z == 2020)
-                {
-                    Console.WriteLine(x * y * z);
-                }
-            })));
+            return result;
         }
 
     }
+
 }

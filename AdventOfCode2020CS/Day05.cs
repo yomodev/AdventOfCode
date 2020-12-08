@@ -6,16 +6,15 @@ namespace AdventOfCode2020CS
 {
     public class Day05
     {
-
-        public static void Test1(string filePath)
+        public static int Test1(string filePath)
         {
             var result = File.ReadLines(filePath)
                 .Select(x => GetSeatID(x))
                 .Max();
-            Console.WriteLine(result);
+            return result;
         }
 
-        public static void Test2(string filePath)
+        public static int Test2(string filePath)
         {
             var seats = File.ReadLines(filePath)
                 .Select(x => GetSeatID(x));
@@ -24,7 +23,7 @@ namespace AdventOfCode2020CS
                 .Except(seats)
                 .First();
 
-            Console.WriteLine(result);
+            return result;
         }
 
         public static int GetSeatID(string v)
