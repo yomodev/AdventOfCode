@@ -6,17 +6,17 @@ namespace AdventOfCode2020CS
 {
     public class Day05
     {
-        public static int Test1(string filePath)
+        public static int Test1(string input)
         {
-            var result = File.ReadLines(filePath)
+            var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => GetSeatID(x))
                 .Max();
             return result;
         }
 
-        public static int Test2(string filePath)
+        public static int Test2(string input)
         {
-            var seats = File.ReadLines(filePath)
+            var seats = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => GetSeatID(x));
 
             var result = Enumerable.Range(seats.Min(), seats.Max() + 1)

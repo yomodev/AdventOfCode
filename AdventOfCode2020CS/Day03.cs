@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode2020CS
 {
     public class Day03
     {
-        public static int Test1(string filePath)
+        public static int Test1(string input)
         {
-            var trees = File.ReadLines(filePath)
+            var trees = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Skip(1)
                 .Aggregate(
                     (trees: 0, x: 3), 
@@ -19,12 +19,13 @@ namespace AdventOfCode2020CS
             return trees;
         }
 
-        public static long Test2(string filePath)
+        public static long Test2(string input)
         {
             var slopes = new List<(int right, int down)> 
                 { (1,1), (3,1), (5,1), (7,1), (1,2) };
 
-            var map = File.ReadLines(filePath).ToArray()
+            var map = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
+                .ToArray()
                 .Select((x, i) => new { line = x, i });
 
             var result = slopes.Multiply(

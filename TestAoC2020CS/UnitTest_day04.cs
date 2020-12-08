@@ -1,5 +1,6 @@
 using AdventOfCode2020CS;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
 
 namespace TestAoC2020CS
 {
@@ -9,35 +10,40 @@ namespace TestAoC2020CS
         [TestMethod]
         public void Test_test1()
         {
-            var result = Day04.Test1(@"inputs\day04_test1.txt");
+            var input = File.ReadAllText(@"inputs\day04_test1.txt");
+            var result = Day04.Test1(input);
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
         public void Test_1()
         {
-            var result = Day04.Test1(@"inputs\day04_1.txt");
+            var input = File.ReadAllText(@"inputs\day04_1.txt");
+            var result = Day04.Test1(input);
             Assert.AreEqual(264, result);
         }
 
         [TestMethod]
         public void Test_test2()
         {
-            var result = Day04.Test2(@"inputs\day04_test2.txt");
+            var input = File.ReadAllText(@"inputs\day04_test2.txt");
+            var result = Day04.Test2(input);
             Assert.AreEqual(0, result);
         }
 
         [TestMethod]
         public void Test_test3()
         {
-            var result = Day04.Test2(@"inputs\day04_test3.txt");
+            var input = File.ReadAllText(@"inputs\day04_test3.txt");
+            var result = Day04.Test2(input);
             Assert.AreEqual(4, result);
         }
 
         [TestMethod]
         public void Test_2()
         {
-            var result = Day04.Test2(@"inputs\day04_1.txt");
+            var input = File.ReadAllText(@"inputs\day04_1.txt");
+            var result = Day04.Test2(input);
             Assert.AreEqual(224, result);
         }
 

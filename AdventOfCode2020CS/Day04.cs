@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -9,12 +8,13 @@ namespace AdventOfCode2020CS
 {
     public class Day04
     {
-        public static int Test1(string filePath)
+        public static int Test1(string input)
         {
             var req = new HashSet<string>("byr iyr eyr hgt hcl ecl pid cid".Split(' '));
             req.Remove("cid");
 
-            var result = Aggregate(File.ReadLines(filePath))
+            var result = input.Split(Environment.NewLine + Environment.NewLine)
+                .Select(x => x.Replace(Environment.NewLine, " ").Trim())
                 .Select(x => x.Split(' ', ':').Where((s, i) => i % 2 == 0))
                 .Select(x => new HashSet<string>(x))
                 .Where(x => req.Intersect(x).Count() == req.Count())
@@ -23,13 +23,12 @@ namespace AdventOfCode2020CS
             return result;
         }
 
-        public static int Test2(string filePath)
+        public static int Test2(string input)
         {
             var req = new HashSet<string>("byr iyr eyr hgt hcl ecl pid cid".Split(' '));
             req.Remove("cid");
 
-            var result = File.ReadAllText(filePath)
-                .Split(Environment.NewLine + Environment.NewLine)
+            var result = input.Split(Environment.NewLine + Environment.NewLine)
                 .Select(x => x.Replace(Environment.NewLine, " ").Trim())
                 .Select(x => x.Split(' ').ToDictionary(k => k.Split(':')[0], v => v.Split(':')[1]))
                 .Where(x => req.Except(x.Keys).Count() == 0)
@@ -55,26 +54,6 @@ namespace AdventOfCode2020CS
             return result;
         }
 
-        private static IEnumerable<string> Aggregate(IEnumerable<string> enumerable)
-        {
-            var buf = new StringBuilder();
-            foreach (var item in enumerable)
-            {
-                if (item.Length == 0)
-                {
-                    yield return buf.ToString().Trim();
-                    buf.Clear();
-                }
-                else
-                {
-                    buf.Append(item);
-                    buf.Append(' ');
-                }
-            }
-
-            if (buf.Length > 0)
-                yield return buf.ToString().Trim();
-        }
     }
 
 }
