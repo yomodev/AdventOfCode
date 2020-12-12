@@ -48,20 +48,19 @@ namespace AdventOfCode2020CS
                 { "nop", (arg) => 1 }
             };
 
-            var consumed = new HashSet<int>();
             var lookup = new string[] { "jmp", "nop" };
-            var swapIndex = -1;
-            var swapCount = code.Where(x => lookup.Contains(x.operation)).Count();
-            while (swapCount-- >= 0)
-            {
-                swapIndex = code.Skip(swapIndex + 1)
+            int? swapIndex = -1;
+
+            while (
+                (swapIndex = code.Skip(swapIndex.Value + 1)
                     .Where(x => lookup.Contains(x.operation))
-                    .Select(x => x.line).First();
+                    .Select(x => x.line).FirstOrDefault()) != null)
+            {
 
                 acc = 0;
                 int ip = 0;
-                consumed.Clear();
-                while (!consumed.Contains(ip))
+                var consumed = new HashSet<int>();
+                while (!consumed.Contains(ip) || ip >= code.Length)
                 {
                     consumed.Add(ip);
                     var op = code[ip].operation;
@@ -70,18 +69,13 @@ namespace AdventOfCode2020CS
                         op = op == "jmp" ? "nop" : "jmp";
                     }
                     var arg = code[ip].argument;
-                    if (ip == code.Length -1)
+                    var inc = processor[op].Invoke(arg);
+                    if (ip == code.Length - 1)
                     {
-                        Console.WriteLine("ip {0}, acc {0}", ip, acc);
-                        processor[op].Invoke(arg);
                         return acc;
                     }
 
-                    ip += processor[op].Invoke(arg);
-                    if (ip >= code.Length)
-                    {
-                        break;
-                    }
+                    ip += inc;
                 }
             }
 
