@@ -6,80 +6,105 @@ namespace AdventOfCode2020CS
 {
     public class Day08
     {
+        enum Operation
+        {
+            acc,
+            jmp,
+            nop,
+        }
 
-        public static int Test1(string input)
+        struct Code
+        {
+            public Operation Operation { get; set; }
+            public int Value { get; set; }
+            public int Line { get; set; }
+        }
+
+        class CPU
+        {
+            Dictionary<Operation, Func<int, int>> Operators;
+            public int Acc { get; set; }
+            
+            public CPU()
+            {
+                Operators = new()
+                {
+                    { Operation.acc, (arg) => { Acc+= arg; return 1; } },
+                    { Operation.jmp, (arg) => arg },
+                    { Operation.nop, (arg) => 1 }
+                };
+            }
+
+            public int Execute(Code code)
+            {
+                return Operators[code.Operation].Invoke(code.Value);
+            }
+        }
+
+        private static IEnumerable<Code> ParseProgram(string input)
         {
             var code = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Split(' '))
-                .Select(x => new { operation = x[0], argument = int.Parse(x[1]) }).ToArray();
+                .Select((x,i) => new Code 
+                { 
+                    Operation = Enum.Parse<Operation>(x[0]), 
+                    Value = int.Parse(x[1]) ,
+                    Line = i
+                });
+            return code;
+        }
 
-            int acc = 0;
-            var processor = new Dictionary<string, Func<int, int>>
-            {
-                { "acc", (arg) => { acc+= arg; return 1; } },
-                { "jmp", (arg) => arg },
-                { "nop", (arg) => 1 }
-            };
 
+        public static int Test1(string input)
+        {
+            var code = ParseProgram(input).ToArray();
+            var cpu = new CPU();
+            
             int ip = 0;
             var consumed = new HashSet<int>();
             while (!consumed.Contains(ip))
             {
                 consumed.Add(ip);
-                var op = code[ip].operation;
-                var arg = code[ip].argument;
-                ip += processor[op].Invoke(arg);
+                ip += cpu.Execute(code[ip]);
             }
 
-            return acc;
+            return cpu.Acc;
         }
 
         public static int Test2(string input)
         {
-            var code = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => x.Split(' '))
-                .Select((x, i) => new { line = i, operation = x[0], argument = int.Parse(x[1]) }).ToArray();
-
-            int acc = 0;
-            var processor = new Dictionary<string, Func<int, int>>
-            {
-                { "acc", (arg) => { acc+= arg; return 1; } },
-                { "jmp", (arg) => arg },
-                { "nop", (arg) => 1 }
-            };
+            var code = ParseProgram(input).ToArray();
 
             var lookup = new string[] { "jmp", "nop" };
-            int? swapIndex = -1;
 
+            int? swapIndex = -1;
             while (
                 (swapIndex = code.Skip(swapIndex.Value + 1)
-                    .Where(x => lookup.Contains(x.operation))
-                    .Select(x => x.line).FirstOrDefault()) != null)
+                    .Where(x => lookup.Contains(x.Operation.ToString()))
+                    .Select(x => x.Line).FirstOrDefault()) != null)
             {
-
-                acc = 0;
+                var cpu = new CPU();
                 int ip = 0;
                 var consumed = new HashSet<int>();
                 while (!consumed.Contains(ip) || ip >= code.Length)
                 {
                     consumed.Add(ip);
-                    var op = code[ip].operation;
+                    var op = code[ip].Operation;
                     if (ip == swapIndex)
                     {
-                        op = op == "jmp" ? "nop" : "jmp";
+                        op = op == Operation.jmp ? Operation.nop : Operation.jmp;
                     }
-                    var arg = code[ip].argument;
-                    var inc = processor[op].Invoke(arg);
+                    var inc = cpu.Execute(new Code { Value = code[ip].Value, Operation = op});
                     if (ip == code.Length - 1)
                     {
-                        return acc;
+                        return cpu.Acc;
                     }
 
                     ip += inc;
                 }
             }
 
-            return acc;
+            return 0;
         }
 
     }
