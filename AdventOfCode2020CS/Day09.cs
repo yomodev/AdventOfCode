@@ -33,20 +33,15 @@ namespace AdventOfCode2020CS
                 .ToArray();
 
             IEnumerable<long> seq = Enumerable.Empty<long>();
-            foreach (var i in Enumerable.Range(0, numbers.Length))
+            foreach (var i in Enumerable.Range(0, numbers.Length).Where(x => numbers[x] < invalid))
             {
-                if (numbers[i] == invalid)
-                {
-                    continue;
-                }
-
                 var j = 2;
                 long sum;
                 do
                 {
                     seq = numbers.Skip(i).Take(j++);
                     sum = seq.Sum();
-                } 
+                }
                 while (sum < invalid);
 
                 if (sum == invalid)
