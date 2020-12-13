@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode2020CS
@@ -8,11 +9,11 @@ namespace AdventOfCode2020CS
 
         public static long Part1(string input, int preamble)
         {
-            var code = input.Split(Environment.NewLine)
+            var numbers = input.Split(Environment.NewLine)
                 .Select((x, i) => new { i, value = long.Parse(x) });
 
-            var result = code.Skip(preamble)
-                .Where(x => code
+            var result = numbers.Skip(preamble)
+                .Where(x => numbers
                     .Skip(x.i - preamble)
                     .Take(preamble)
                     .DifferentCombinations(2)
@@ -26,22 +27,37 @@ namespace AdventOfCode2020CS
 
         public static long Part2(string input, int preamble)
         {
-            var code = input.Split(Environment.NewLine)
-                .Select((x, i) => new { i, value = long.Parse(x) });
+            var invalid = Part1(input, preamble);
+            var numbers = input.Split(Environment.NewLine)
+                .Select(x => long.Parse(x))
+                .ToArray();
 
-            var result = code.Skip(preamble)
-                .Where(x => code
-                    .Skip(x.i - preamble)
-                    .Take(preamble)
-                    .DifferentCombinations(2)
-                    .Select(x => x.Sum(y => y.value))
-                    .Contains(x.value) == false)
-                .Select(x => x.value)
-                .First();
+            IEnumerable<long> seq = Enumerable.Empty<long>();
+            foreach (var i in Enumerable.Range(0, numbers.Length))
+            {
+                if (numbers[i] == invalid)
+                {
+                    continue;
+                }
 
+                var j = 2;
+                long sum;
+                do
+                {
+                    seq = numbers.Skip(i).Take(j++);
+                    sum = seq.Sum();
+                } 
+                while (sum < invalid);
+
+                if (sum == invalid)
+                {
+                    break;
+                }
+            }
+
+            var result = seq.Min() + seq.Max();
             return result;
         }
-
 
     }
 
