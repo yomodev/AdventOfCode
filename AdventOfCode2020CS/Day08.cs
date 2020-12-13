@@ -20,10 +20,31 @@ namespace AdventOfCode2020CS
             public int Line { get; set; }
         }
 
+        static IEnumerable<Code[]> Swap(IEnumerable<Code> code)
+        {
+            var program = code.ToArray();
+            for (int i = 0; i < program.Length; i++)
+            {
+                if (program[i].Operation == Operation.jmp)
+                {
+                    var clone = (Code[])program.Clone();
+                    clone[i].Operation = Operation.nop;
+                    yield return clone;
+                }
+                else if (program[i].Operation == Operation.nop)
+                {
+                    var clone = (Code[])program.Clone();
+                    clone[i].Operation = Operation.jmp;
+                    yield return clone;
+                }
+            }
+        }
+
         class CPU
         {
             Dictionary<Operation, Func<int, int>> Operators;
             public int Acc { get; set; }
+            public int Ip { get; set; }
             
             public CPU()
             {
@@ -37,7 +58,8 @@ namespace AdventOfCode2020CS
 
             public int Execute(Code code)
             {
-                return Operators[code.Operation].Invoke(code.Value);
+                Ip +=  Operators[code.Operation].Invoke(code.Value);
+                return Ip;
             }
         }
 
@@ -54,57 +76,36 @@ namespace AdventOfCode2020CS
             return code;
         }
 
-
         public static int Test1(string input)
         {
             var code = ParseProgram(input).ToArray();
             var cpu = new CPU();
             
-            int ip = 0;
             var consumed = new HashSet<int>();
-            while (!consumed.Contains(ip))
+            while (consumed.Add(cpu.Ip))
             {
-                consumed.Add(ip);
-                ip += cpu.Execute(code[ip]);
+                cpu.Execute(code[cpu.Ip]);
             }
-
             return cpu.Acc;
         }
 
         public static int Test2(string input)
         {
-            var code = ParseProgram(input).ToArray();
-
-            var lookup = new string[] { "jmp", "nop" };
-
-            int? swapIndex = -1;
-            while (
-                (swapIndex = code.Skip(swapIndex.Value + 1)
-                    .Where(x => lookup.Contains(x.Operation.ToString()))
-                    .Select(x => x.Line).FirstOrDefault()) != null)
+            var program = ParseProgram(input);
+            foreach (var code in Swap(program))
             {
                 var cpu = new CPU();
-                int ip = 0;
                 var consumed = new HashSet<int>();
-                while (!consumed.Contains(ip) || ip >= code.Length)
+                while (consumed.Add(cpu.Ip) && cpu.Ip < code.Length)
                 {
-                    consumed.Add(ip);
-                    var op = code[ip].Operation;
-                    if (ip == swapIndex)
-                    {
-                        op = op == Operation.jmp ? Operation.nop : Operation.jmp;
-                    }
-                    var inc = cpu.Execute(new Code { Value = code[ip].Value, Operation = op});
-                    if (ip == code.Length - 1)
+                    cpu.Execute(code[cpu.Ip]);
+                    if (cpu.Ip == code.Length)
                     {
                         return cpu.Acc;
                     }
-
-                    ip += inc;
                 }
             }
-
-            return 0;
+            return -1;
         }
 
     }
