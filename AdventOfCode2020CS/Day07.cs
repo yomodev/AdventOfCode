@@ -8,7 +8,7 @@ namespace AdventOfCode2020CS
     {
         static string SEED = "shiny gold";
 
-        public static int Test1(string input)
+        public static int Part1(string input)
         {
             Dictionary<string, Dictionary<string, int>> dict = BuildDict(input);
 
@@ -33,7 +33,7 @@ namespace AdventOfCode2020CS
             return result.Count();
         }
 
-        public static long Test2(string input)
+        public static long Part2(string input)
         {
             Dictionary<string, Dictionary<string, int>> dict = BuildDict(input);
 

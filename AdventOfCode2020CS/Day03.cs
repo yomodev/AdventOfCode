@@ -6,7 +6,7 @@ namespace AdventOfCode2020CS
 {
     public class Day03
     {
-        public static int Test1(string input)
+        public static int Part1(string input)
         {
             var trees = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Skip(1)
@@ -19,7 +19,7 @@ namespace AdventOfCode2020CS
             return trees;
         }
 
-        public static long Test2(string input)
+        public static long Part2(string input)
         {
             var slopes = new List<(int right, int down)> 
                 { (1,1), (3,1), (5,1), (7,1), (1,2) };

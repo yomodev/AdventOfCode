@@ -24,18 +24,18 @@ namespace TestAoC2020CS
         }
 
         [TestMethod]
-        public void Test_1()
+        public void Test_part1()
         {
             var input = File.ReadAllText(@"inputs\day05_1.txt");
-            var result = Day05.Test1(input);
+            var result = Day05.Part1(input);
             Assert.AreEqual(878, result);
         }
 
         [TestMethod]
-        public void Test_2()
+        public void Test_part2()
         {
             var input = File.ReadAllText(@"inputs\day05_1.txt");
-            var result = Day05.Test2(input);
+            var result = Day05.Part2(input);
             Assert.AreEqual(504, result);
         }
     }

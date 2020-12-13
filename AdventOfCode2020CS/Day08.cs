@@ -76,7 +76,7 @@ namespace AdventOfCode2020CS
             return code;
         }
 
-        public static int Test1(string input)
+        public static int Part1(string input)
         {
             var code = ParseProgram(input).ToArray();
             var cpu = new CPU();
@@ -89,7 +89,7 @@ namespace AdventOfCode2020CS
             return cpu.Acc;
         }
 
-        public static int Test2(string input)
+        public static int Part2(string input)
         {
             var program = ParseProgram(input);
             foreach (var code in Swap(program))

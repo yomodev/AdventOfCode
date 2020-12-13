@@ -5,7 +5,7 @@ namespace AdventOfCode2020CS
 {
     public class Day02
     {
-        public static int Test1(string input)
+        public static int Part1(string input)
         {
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Select(line => line.Split(' ', '-', ':'))
@@ -16,7 +16,7 @@ namespace AdventOfCode2020CS
             return result;
         }
 
-        public static int Test2(string input)
+        public static int Part2(string input)
         {
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Select(line => line.Split(' ', '-', ':'))

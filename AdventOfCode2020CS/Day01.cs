@@ -5,7 +5,7 @@ namespace AdventOfCode2020CS
 {
     public class Day01
     {
-        public static long Test1(string input)
+        public static long Part1(string input)
         {
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Select(line => int.Parse(line)).ToArray()
@@ -16,7 +16,7 @@ namespace AdventOfCode2020CS
             return result;
         }
 
-        public static long Test2(string input)
+        public static long Part2(string input)
         {
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Select(line => int.Parse(line)).ToArray()

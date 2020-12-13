@@ -8,7 +8,7 @@ namespace AdventOfCode2020CS
 {
     public class Day04
     {
-        public static int Test1(string input)
+        public static int Part1(string input)
         {
             var req = new HashSet<string>("byr iyr eyr hgt hcl ecl pid cid".Split(' '));
             req.Remove("cid");
@@ -23,7 +23,7 @@ namespace AdventOfCode2020CS
             return result;
         }
 
-        public static int Test2(string input)
+        public static int Part2(string input)
         {
             var req = new HashSet<string>("byr iyr eyr hgt hcl ecl pid cid".Split(' '));
             req.Remove("cid");

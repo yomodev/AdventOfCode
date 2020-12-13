@@ -6,7 +6,7 @@ namespace AdventOfCode2020CS
 {
     public class Day06
     {
-        public static int Test1(string input)
+        public static int Part1(string input)
         {
             var result = input.Split(Environment.NewLine + Environment.NewLine)
                 .Select(x => x.Replace(Environment.NewLine, string.Empty).Trim())
@@ -15,7 +15,7 @@ namespace AdventOfCode2020CS
             return result;
         }
 
-        public static int Test2(string input)
+        public static int Part2(string input)
         {
             var result = input.Split(Environment.NewLine + Environment.NewLine)
                 .Select((s, i) => new { s, i })
