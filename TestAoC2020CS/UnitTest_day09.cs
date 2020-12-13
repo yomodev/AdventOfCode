@@ -18,9 +18,9 @@ namespace TestAoC2020CS
         [TestMethod]
         public void Test_1()
         {
-            var input = File.ReadAllText(@"inputs\day08_1.txt");
+            var input = File.ReadAllText(@"inputs\day09_1.txt");
             var result = Day09.Test1(input, preamble: 25);
-            Assert.AreEqual(0, result);
+            Assert.AreEqual(15353384, result);
         }
 
         
