@@ -44,7 +44,15 @@ namespace TestAoC2020CS
         {
             var input = File.ReadAllText(@"inputs\day10_test2.txt");
             var result = Day10.Part2(input);
-            Assert.AreEqual(7 * 5, result);
+            Assert.AreEqual(19208, result);
+        }
+
+        [TestMethod]
+        public void Test_part2()
+        {
+            var input = File.ReadAllText(@"inputs\day10_1.txt");
+            var result = Day10.Part2(input);
+            Assert.AreEqual(12089663946752, result);
         }
 
     }

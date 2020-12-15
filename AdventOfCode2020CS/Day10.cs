@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AdventOfCode2020CS
@@ -29,9 +30,47 @@ namespace AdventOfCode2020CS
             return result;
         }
 
-        public static int Part2(string input)
+
+        public static long Part2(string input)
         {
-            return 0;
+            var numbers = input.Split(Environment.NewLine)
+                .Select(x => int.Parse(x))
+                .OrderBy(x => x)
+                .ToList();
+            numbers.Insert(0, 0);
+            numbers.Add(numbers.Last() + 3);
+
+            var cache = new Dictionary<long, long>();
+
+            long calc(int n = 0) 
+            {
+                if (n == numbers.Count - 1)
+                {
+                    return 1;
+                }
+
+                if (cache.ContainsKey(n)) 
+                {
+                    return cache[n];
+                }
+
+                long res = 0;
+                for (int i = n + 1; i < numbers.Count; i++)
+                {
+                    //Debug.WriteLine(i);
+                    if (numbers[i] - numbers[n] <= 3)
+                    {
+                        var c = calc(i);
+                        Debug.WriteLine($"n = {n}, i = {i} - res {res +c} = {res} + {c}({i}) ");
+                        res += c;
+                    }
+                }
+
+                cache[n] = res;
+                return res;
+            };
+
+            return calc();
         }
 
     }
