@@ -6,7 +6,7 @@ namespace AdventOfCode2020CS
 {
     public class Day07
     {
-        static string SEED = "shiny gold";
+        static readonly string SEED = "shiny gold";
 
         public static int Part1(string input)
         {
@@ -30,7 +30,7 @@ namespace AdventOfCode2020CS
                 }
             }
 
-            return result.Count();
+            return result.Count;
         }
 
         public static long Part2(string input)

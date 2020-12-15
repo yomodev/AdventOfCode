@@ -10,16 +10,15 @@ namespace AdventOfCode2020CS
         public static long Part1(string input, int preamble)
         {
             var numbers = input.Split(Environment.NewLine)
-                .Select((x, i) => new { i, value = long.Parse(x) });
+                .Select(x => long.Parse(x));
 
             var result = numbers.Skip(preamble)
-                .Where(x => numbers
-                    .Skip(x.i - preamble)
+                .Where((x,i) => numbers
+                    .Skip(i)
                     .Take(preamble)
                     .DifferentCombinations(2)
-                    .Select(x => x.Sum(y => y.value))
-                    .Contains(x.value) == false)
-                .Select(x => x.value)
+                    .Select(x => x.Sum())
+                    .Contains(x) == false)
                 .First();
 
             return result;

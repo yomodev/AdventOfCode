@@ -17,7 +17,6 @@ namespace AdventOfCode2020CS
         {
             public Operation Operation { get; set; }
             public int Value { get; set; }
-            public int Line { get; set; }
         }
 
         static IEnumerable<Code[]> Swap(IEnumerable<Code> code)
@@ -42,7 +41,7 @@ namespace AdventOfCode2020CS
 
         class CPU
         {
-            Dictionary<Operation, Func<int, int>> Operators;
+            readonly Dictionary<Operation, Func<int, int>> Operators;
             public int Acc { get; set; }
             public int Ip { get; set; }
             
@@ -70,8 +69,7 @@ namespace AdventOfCode2020CS
                 .Select((x,i) => new Code 
                 { 
                     Operation = Enum.Parse<Operation>(x[0]), 
-                    Value = int.Parse(x[1]) ,
-                    Line = i
+                    Value = int.Parse(x[1])
                 });
             return code;
         }

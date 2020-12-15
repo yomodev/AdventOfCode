@@ -10,7 +10,7 @@ namespace AdventOfCode2020CS
         {
             var result = input.Split(Environment.NewLine + Environment.NewLine)
                 .Select(x => x.Replace(Environment.NewLine, string.Empty).Trim())
-                .Sum(x => new HashSet<char>(x).Count());
+                .Sum(x => new HashSet<char>(x).Count);
 
             return result;
         }
@@ -22,7 +22,7 @@ namespace AdventOfCode2020CS
                 .GroupBy(k => k.i, v => v.s.Split(Environment.NewLine), (k, v) => v.First())
                 .Sum(x => x.Concat()
                         .GroupBy(c => c)
-                        .Where(c => c.Count() == x.Count())
+                        .Where(c => c.Count() == x.Length)
                         .Count());
             
             return result;

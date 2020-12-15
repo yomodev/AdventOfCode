@@ -17,7 +17,7 @@ namespace AdventOfCode2020CS
                 .Select(x => x.Replace(Environment.NewLine, " ").Trim())
                 .Select(x => x.Split(' ', ':').Where((s, i) => i % 2 == 0))
                 .Select(x => new HashSet<string>(x))
-                .Where(x => req.Intersect(x).Count() == req.Count())
+                .Where(x => req.Intersect(x).Count() == req.Count)
                 .Count();
 
             return result;
@@ -31,7 +31,7 @@ namespace AdventOfCode2020CS
             var result = input.Split(Environment.NewLine + Environment.NewLine)
                 .Select(x => x.Replace(Environment.NewLine, " ").Trim())
                 .Select(x => x.Split(' ').ToDictionary(k => k.Split(':')[0], v => v.Split(':')[1]))
-                .Where(x => req.Except(x.Keys).Count() == 0)
+                .Where(x => !req.Except(x.Keys).Any())
                 // byr(Birth Year) - four digits; at least 1920 and at most 2002.
                 .Where(x => int.TryParse(x["byr"], out int byr) && byr >= 1920 && byr <= 2002)
                 // iyr(Issue Year) - four digits; at least 2010 and at most 2020.

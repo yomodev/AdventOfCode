@@ -30,7 +30,7 @@ namespace AdventOfCode2020CS
         {
             v = v.Replace('F', '1').Replace('B', '0').Replace('L', '1').Replace('R', '0');
             var row = 127 - Convert.ToInt32(v.Substring(0, 7), 2);
-            var column = 7 - Convert.ToInt32(v.Substring(7), 2);
+            var column = 7 - Convert.ToInt32(v[7..], 2);
             var seat = row * 8 + column;
             return seat;
         }

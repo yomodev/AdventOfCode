@@ -31,6 +31,22 @@ namespace TestAoC2020CS
             Assert.AreEqual(2312, result);
         }
 
+        [TestMethod]
+        public void Test_test3()
+        {
+            var input = File.ReadAllText(@"inputs\day10_test1.txt");
+            var result = Day10.Part2(input);
+            Assert.AreEqual(8, result);
+        }
+
+        [TestMethod]
+        public void Test_test4()
+        {
+            var input = File.ReadAllText(@"inputs\day10_test2.txt");
+            var result = Day10.Part2(input);
+            Assert.AreEqual(7 * 5, result);
+        }
+
     }
 
 }
