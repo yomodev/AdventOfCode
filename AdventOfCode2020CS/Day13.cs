@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AdventOfCode2020CS
@@ -22,12 +23,46 @@ namespace AdventOfCode2020CS
             return result;
         }
 
-        public static int Part2(string input)
+        public static long Part2(string input)
         {
-            var data = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            var buses = input.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select((x, i) => new { id = x, offset = i })
+                .Where(x => x.id != "x")
+                .Select(x => new { id = int.Parse(x.id), x.offset })
+                .OrderByDescending(x => x.id)
+                .ToList();
 
-            var bus = data.Skip(1).First().Split(',', StringSplitOptions.RemoveEmptyEntries);
-            var result = 0;
+            long i = 0;
+            long inc = buses[0].id;
+            long dif = buses[0].offset;
+            buses.RemoveAt(0);
+            var cur = i - inc;
+            while (true)
+            {
+                i += inc;
+                cur = i - dif;
+
+                for (int x = 0; x < buses.Count; x++)
+                {
+                    if ((cur + buses[x].offset) % buses[x].id != 0)
+                    {
+                        goto skip;
+                    }
+                    else if (x != buses.Count -1)
+                    {
+                        //Debug.WriteLine($"{i} {cur} {buses[x].id}");
+                        inc *= buses[x].id;
+                        buses.RemoveAt(0);
+                        goto skip;
+                    }
+                }
+                break;
+
+            skip:
+                continue;
+            }
+
+            var result = cur;
             return result;
         }
 
