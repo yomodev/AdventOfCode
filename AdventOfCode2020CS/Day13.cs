@@ -30,39 +30,38 @@ namespace AdventOfCode2020CS
                 .Where(x => x.id != "x")
                 .Select(x => new { id = int.Parse(x.id), x.offset })
                 .OrderByDescending(x => x.id)
-                .ToList();
+                .ToArray();
 
-            long i = 0;
-            long inc = buses[0].id;
-            long dif = buses[0].offset;
-            buses.RemoveAt(0);
-            var cur = i - inc;
+            long increment = buses[0].id;
+            long delta = buses[0].offset;
+            int skip = 1;
+            long result = 0;
+
             while (true)
             {
-                i += inc;
-                cur = i - dif;
+                result += increment;
 
-                for (int x = 0; x < buses.Count; x++)
+                for (int i = skip; i < buses.Length; i++)
                 {
-                    if ((cur + buses[x].offset) % buses[x].id != 0)
+                    if ((result - delta + buses[i].offset) % buses[i].id != 0)
                     {
-                        goto skip;
+                        goto skipLabel;
                     }
-                    else if (x != buses.Count -1)
+                    else if (i != buses.Length - 1)
                     {
                         //Debug.WriteLine($"{i} {cur} {buses[x].id}");
-                        inc *= buses[x].id;
-                        buses.RemoveAt(0);
-                        goto skip;
+                        increment *= buses[i].id;
+                        skip++;
+                        goto skipLabel;
                     }
                 }
                 break;
 
-            skip:
+            skipLabel:
                 continue;
             }
 
-            var result = cur;
+            result -= delta;
             return result;
         }
 
