@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode2020CS
@@ -25,40 +25,30 @@ namespace AdventOfCode2020CS
 
         public static long Part2(string input)
         {
-            var buses = input.Split(',', StringSplitOptions.RemoveEmptyEntries)
+            var stack = new Stack<(long id, int offset)>(input.Split(',')
                 .Select((x, i) => new { id = x, offset = i })
                 .Where(x => x.id != "x")
-                .Select(x => new { id = int.Parse(x.id), x.offset })
+                .Select(x => (id: long.Parse(x.id), x.offset))
                 .OrderByDescending(x => x.id)
-                .ToArray();
+                );
 
-            long increment = buses[0].id;
-            long delta = buses[0].offset;
-            int skip = 1;
+            var (increment, delta) = stack.Pop();
             long result = 0;
 
-            while (true)
+            while (stack.Any())
             {
                 result += increment;
 
-                for (int i = skip; i < buses.Length; i++)
+                var (id, offset) = stack.Peek();
+                if ((result - delta + offset) % id != 0)
                 {
-                    if ((result - delta + buses[i].offset) % buses[i].id != 0)
-                    {
-                        goto skipLabel;
-                    }
-                    else if (i != buses.Length - 1)
-                    {
-                        //Debug.WriteLine($"{i} {cur} {buses[x].id}");
-                        increment *= buses[i].id;
-                        skip++;
-                        goto skipLabel;
-                    }
+                    continue;
                 }
-                break;
-
-            skipLabel:
-                continue;
+                else
+                {
+                    increment *= id;
+                    stack.Pop();
+                }
             }
 
             result -= delta;
