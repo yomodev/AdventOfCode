@@ -11,9 +11,8 @@ namespace TestAoC2020CS
         [TestMethod]
         public void Test_test1()
         {
-            var b1 = new Bin(11);
-            var b2 = b1.Mask("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X");
-            var result = b2 + 0;
+            var b1 = 11L;
+            var result = b1.Mask1("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X");
             Assert.AreEqual(73, result);
         }
 
