@@ -37,8 +37,8 @@ namespace TestAoC2020CS
             var mask = Day14.Mask2(42, "000000000000000000000000000000X1001X");
             Assert.AreEqual("000000000000000000000000000000X1101X", mask);
 
-            var values = Day14.Address(mask);
-            Assert.AreEqual(4, values.Count());
+            var values = Day14.Address(mask).ToArray();
+            Assert.AreEqual(4, values.Length);
             Assert.IsTrue(values.Contains(26));
             Assert.IsTrue(values.Contains(27));
             Assert.IsTrue(values.Contains(58));
