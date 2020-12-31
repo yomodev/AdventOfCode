@@ -24,6 +24,17 @@ namespace TestAoC2020CS
             Assert.AreEqual(19093, result);
         }
 
+        [TestMethod]
+        public void Test_test2()
+        {
+            var input = File.ReadAllText(@"inputs\day16_test2.txt");
+            var result = Day16.Decode(input);
+            Assert.AreEqual(12, result["class"]);
+            Assert.AreEqual(11, result["row"]);
+            Assert.AreEqual(13, result["seat"]);
+        }
+
+
     }
 
 }
