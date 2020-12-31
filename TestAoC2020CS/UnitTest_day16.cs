@@ -21,7 +21,7 @@ namespace TestAoC2020CS
         {
             var input = File.ReadAllText(@"inputs\day16_1.txt");
             var result = Day16.Part1(input);
-            Assert.AreEqual(0, result);
+            Assert.AreEqual(19093, result);
         }
 
     }
