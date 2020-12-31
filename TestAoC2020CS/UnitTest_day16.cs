@@ -34,6 +34,13 @@ namespace TestAoC2020CS
             Assert.AreEqual(13, result["seat"]);
         }
 
+        [TestMethod]
+        public void Test_part2()
+        {
+            var input = File.ReadAllText(@"inputs\day16_1.txt");
+            var result = Day16.Decode(input);
+        }
+
 
     }
 
