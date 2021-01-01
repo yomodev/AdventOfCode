@@ -28,7 +28,7 @@ namespace TestAoC2020CS
         public void Test_test2()
         {
             var input = File.ReadAllText(@"inputs\day16_test2.txt");
-            var result = Day16.Decode(input);
+            var result = Day16.DecodeTicket(input);
             Assert.AreEqual(12, result["class"]);
             Assert.AreEqual(11, result["row"]);
             Assert.AreEqual(13, result["seat"]);
@@ -38,9 +38,9 @@ namespace TestAoC2020CS
         public void Test_part2()
         {
             var input = File.ReadAllText(@"inputs\day16_1.txt");
-            var result = Day16.Decode(input);
+            var result = Day16.Part2(input);
+            Assert.AreEqual(5311123569883, result);
         }
-
 
     }
 
