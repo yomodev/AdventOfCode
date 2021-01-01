@@ -91,14 +91,14 @@ namespace AdventOfCode2020CS
             var mapping = new Dictionary<string, int>();
             while (mapping.Count < fields.Count)
             {
-                var single = indexes.Single(x => x.Value.Count == 1 && !mapping.ContainsKey(x.Key));
+                var single = indexes.Single(x => !mapping.ContainsKey(x.Key) && x.Value.Count == 1);
                 var index = single.Value.Single();
                 mapping.Add(single.Key, index);
                 indexes.Remove(single.Key);
-                foreach (var item in indexes.Where(x => x.Value.Contains(index)))
-                {
-                    item.Value.Remove(index);
-                }
+                
+                indexes.Select(x => (x, i: x.Value.IndexOf(index)))
+                    .Where(x => x.i > -1)
+                    .ForEach(x => x.x.Value.RemoveAt(x.i));
             }
 
             var result = data[1].Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).Skip(1)
@@ -133,8 +133,7 @@ namespace AdventOfCode2020CS
         {
             var result = DecodeTicket(input)
                 .Where(x => x.Key.StartsWith("departure"))
-                .Select(x => x.Value)
-                .Multiply(x => x);
+                .Multiply(x => x.Value);
 
             return result;
         }
