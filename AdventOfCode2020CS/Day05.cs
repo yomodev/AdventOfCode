@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 
 namespace AdventOfCode2020CS
@@ -9,7 +8,7 @@ namespace AdventOfCode2020CS
         public static int Part1(string input)
         {
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => GetSeatID(x))
+                .Select(GetSeatID)
                 .Max();
             return result;
         }
@@ -17,7 +16,7 @@ namespace AdventOfCode2020CS
         public static int Part2(string input)
         {
             var seats = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => GetSeatID(x));
+                .Select(GetSeatID);
 
             var result = Enumerable.Range(seats.Min(), seats.Max() + 1)
                 .Except(seats)

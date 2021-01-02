@@ -8,10 +8,10 @@ namespace AdventOfCode2020CS
         public static long Part1(string input)
         {
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
-                .Select(line => int.Parse(line)).ToArray()
+                .Select(int.Parse).ToArray()
                 .DifferentCombinations(2)
                 .Where(x => x.Sum() == 2020).FirstOrDefault()
-                .Aggregate(1, (acc, val) => acc * val);
+                .Multiply(x => x);
 
             return result;
         }
@@ -19,10 +19,10 @@ namespace AdventOfCode2020CS
         public static long Part2(string input)
         {
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
-                .Select(line => int.Parse(line)).ToArray()
+                .Select(int.Parse).ToArray()
                 .DifferentCombinations(3)
                 .Where(x => x.Sum() == 2020).FirstOrDefault()
-                .Aggregate(1, (acc, val) => acc * val);
+                .Multiply(x => x);
 
             return result;
         }
