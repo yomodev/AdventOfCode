@@ -7,13 +7,7 @@ namespace AdventOfCode2020CS
 {
     public class Day17
     {
-        public struct Range : IRange
-        {
-            public int First { get; set; }
-            public int Last { get; set; }
-        }
-
-
+        
         public static int Part1(string input)
         {
             var dict = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
@@ -137,14 +131,14 @@ namespace AdventOfCode2020CS
             return result;
         }
 
-        public static IEnumerable<int[]> MultiDimensionIterator(IRange[] ranges)
+        public static IEnumerable<int[]> MultiDimensionIterator(params IRange[] ranges)
         {
-            var step = ranges.Select(x => x.First).ToArray();
-            if (ranges.Length == 0)
+            if (ranges == null || ranges.Length == 0)
             {
                 yield return null;
             }
 
+            var step = ranges.Select(x => x.First).ToArray();
             yield return step;
 
             var min = step.ToArray();
@@ -208,4 +202,11 @@ namespace AdventOfCode2020CS
         public int First { get; }
         public int Last { get; }
     }
+
+    public struct Range : IRange
+    {
+        public int First { get; set; }
+        public int Last { get; set; }
+    }
+
 }
