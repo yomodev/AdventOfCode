@@ -10,7 +10,7 @@ namespace AdventOfCode2020CS
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Select(int.Parse).ToArray()
                 .DifferentCombinations(2)
-                .Where(x => x.Sum() == 2020).FirstOrDefault()
+                .First(x => x.Sum() == 2020)
                 .Multiply(x => x);
 
             return result;
@@ -21,7 +21,7 @@ namespace AdventOfCode2020CS
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Select(int.Parse).ToArray()
                 .DifferentCombinations(3)
-                .Where(x => x.Sum() == 2020).FirstOrDefault()
+                .First(x => x.Sum() == 2020)
                 .Multiply(x => x);
 
             return result;
