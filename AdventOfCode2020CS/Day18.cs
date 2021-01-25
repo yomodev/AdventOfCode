@@ -29,7 +29,7 @@ namespace AdventOfCode2020CS
         public static long Part2(string input)
         {
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
-                .Sum(x => BuildTree(x, new List<Op> { Op.Add, Op.Multiply}).Evaluate());
+                .Sum(x => BuildTree(x, new List<Op> { Op.Add, Op.Multiply }).Evaluate());
 
             return result;
         }
@@ -110,20 +110,19 @@ namespace AdventOfCode2020CS
                 RValue = right;
             }
 
-            public INode Add(INode value)
+            public Node Add(INode value)
             {
                 if (LValue == null)
                 {
                     LValue = value;
+                    return this;
                 }
-                else
-                {
-                    RValue = value;
-                }
-                return value;
+
+                RValue = value;
+                return this;
             }
 
-            public Node Insert(Node value)
+            public Node Insert(INode value)
             {
                 if (RValue == null)
                 {
@@ -138,7 +137,7 @@ namespace AdventOfCode2020CS
                 return node;
             }
 
-            public Node AddOp(Op value, List<Op> opSort = null)
+            public Node Add(Op value, List<Op> opSort = null)
             {
                 if (RValue == null)
                 {
@@ -168,7 +167,16 @@ namespace AdventOfCode2020CS
 
             public override string ToString()
             {
-                return $"{LValue}" + (RValue != null ? $" {Op.Description()} {RValue}" : string.Empty);
+                var sb = new StringBuilder();
+                sb.Append(LValue is Node ? $"({LValue})" : $"{LValue}");
+
+                if (RValue != null)
+                {
+                    sb.Append($" {Op.Description()} ");
+                    sb.Append(RValue is Node && (RValue as Node).RValue != null ? $"({RValue})" : $"{RValue}");
+                }
+
+                return sb.ToString();
             }
         }
 
@@ -191,7 +199,8 @@ namespace AdventOfCode2020CS
                             var end = FindMatchingParenthesis(input, offset);
                             offset++;
                             var str = input[offset..end];
-                            node = node.Insert(BuildTree(str, opSort));
+                            var sub = BuildTree(str, opSort);
+                            node = node.Insert(sub);
                             offset = end + 1;
                             break;
                         }
@@ -202,13 +211,13 @@ namespace AdventOfCode2020CS
                         }
                     case '+':
                         {
-                            node = node.AddOp(Op.Add, opSort);
+                            node = node.Add(Op.Add, opSort);
                             offset++;
                             break;
                         }
                     case '*':
                         {
-                            node = node.AddOp(Op.Multiply, opSort);
+                            node = node.Add(Op.Multiply, opSort);
                             offset++;
                             break;
                         }
@@ -219,7 +228,7 @@ namespace AdventOfCode2020CS
                             var str = input[offset..end];
                             var n = long.Parse(str);
                             offset = end + 1;
-                            node.Add(new Number(n));
+                            node = node.Add(new Number(n));
                         }
                         break;
                 }
