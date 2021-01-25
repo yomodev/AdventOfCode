@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace AdventOfCode2020CS
@@ -9,7 +11,10 @@ namespace AdventOfCode2020CS
     {
         internal enum Op
         {
+            [Description("+")]
             Add,
+
+            [Description("*")]
             Multiply,
         }
 
@@ -143,7 +148,10 @@ namespace AdventOfCode2020CS
             return result;
         }
 
-        interface INode { }
+        interface INode
+        {
+            long Evaluate();
+        }
 
         struct Number : INode
         {
@@ -151,6 +159,16 @@ namespace AdventOfCode2020CS
             public Number(long value)
             {
                 Value = value;
+            }
+
+            public override string ToString()
+            {
+                return Value.ToString();
+            }
+
+            public long Evaluate()
+            {
+                return Value;
             }
         }
 
@@ -182,56 +200,50 @@ namespace AdventOfCode2020CS
 
             public Node Insert(Node value)
             {
-                RValue = LValue;
-                LValue = value;
-                return value;
-            }
-
-            public Node AddOp(Op op)
-            {
                 if (RValue == null)
                 {
-                    Op = op;
+                    RValue = LValue;
+                    LValue = value;
                     return this;
                 }
 
-                var node = new Node(op, RValue);
+                var node = new Node(Op, LValue, RValue);
                 RValue = node;
+                LValue = value;
                 return node;
+            }
+
+            public Node AddOp(Op value)
+            {
+                if (RValue == null)
+                {
+                    Op = value;
+                    return this;
+                }
+
+                var node = new Node(Op, LValue, RValue);
+                LValue = node;
+                Op = value;
+                RValue = null;
+                return this;
             }
 
             public long Evaluate()
             {
-                if (RValue == null && LValue is Number)
+                switch (Op)
                 {
-                    return ((Number)LValue).Value;
+                    case Op.Add:
+                        return LValue.Evaluate() + RValue?.Evaluate() ?? 0;
+                    case Op.Multiply:
+                        return LValue.Evaluate() * RValue?.Evaluate() ?? 1;
+                    default:
+                        throw new InvalidOperationException();
                 }
-                else if (RValue == null && LValue is Node)
-                {
-                    return (RValue as Node).Evaluate();
-                }
+            }
 
-                if (LValue is Number lna && RValue is Number rna && Op == Op.Add)
-                {
-                    return lna.Value + rna.Value;
-                }
-
-                if (LValue is Number lnm && RValue is Number rnm && Op == Op.Multiply)
-                {
-                    return lnm.Value * rnm.Value;
-                }
-
-                if (LValue is Node && RValue is Node)
-                {
-                    var Lnode = LValue as Node;
-                    var Rnode = RValue as Node;
-                    if (Lnode.Op == Op.Add)
-                    {
-                        return Lnode.Evaluate() + 0;
-                    }
-                }
-
-                return 0;
+            public override string ToString()
+            {
+                return $"{LValue}" + (RValue != null ? $" {Op.Description()} {RValue}" : string.Empty);
             }
         }
 
@@ -242,8 +254,7 @@ namespace AdventOfCode2020CS
                 throw new ArgumentException();
             }
 
-            var root = new Node();
-            var node = root;
+            var node = new Node();
 
             int offset = 0;
             while (offset < input.Length)
@@ -289,7 +300,36 @@ namespace AdventOfCode2020CS
                 }
             }
 
-            return root;
+            return node;
+        }
+    }
+
+
+
+    public static class EnumEx
+    {
+        public static string Description<T>(this T enumerationValue) where T : struct
+        {
+            Type type = enumerationValue.GetType();
+            if (!type.IsEnum)
+            {
+                throw new ArgumentException("EnumerationValue must be of Enum type", "enumerationValue");
+            }
+
+            //Tries to find a DescriptionAttribute for a potential friendly name for the enum
+            MemberInfo[] memberInfo = type.GetMember(enumerationValue.ToString());
+            if (memberInfo != null && memberInfo.Length > 0)
+            {
+                object[] attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+                if (attrs != null && attrs.Length > 0)
+                {
+                    //Pull out the description value
+                    return ((DescriptionAttribute)attrs[0]).Description;
+                }
+            }
+            //If we have no description attribute, just return the ToString of the enum
+            return enumerationValue.ToString();
         }
 
     }
