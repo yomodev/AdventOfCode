@@ -102,9 +102,12 @@ namespace AdventOfCode2020CS
             public Op Op { get; set; }
             public INode LValue { get; set; }
             public INode RValue { get; set; }
+            public Node Parent { get; set; }
+            public Node root { get => Parent?.root ?? this; }
 
-            public Node(Op op = Op.Add, INode left = null, INode right = null)
+            public Node(Node parent = null, Op op = Op.Add, INode left = null, INode right = null)
             {
+                Parent = parent;
                 Op = op;
                 LValue = left;
                 RValue = right;
@@ -131,7 +134,7 @@ namespace AdventOfCode2020CS
                     return this;
                 }
 
-                var node = new Node(Op, LValue, RValue);
+                var node = new Node(this, Op, LValue, RValue);
                 RValue = node;
                 LValue = value;
                 return node;
@@ -145,11 +148,16 @@ namespace AdventOfCode2020CS
                     return this;
                 }
 
-                var node = new Node(Op, LValue, RValue);
-                LValue = node;
-                Op = value;
-                RValue = null;
-                return this;
+                if (opSort == null || opSort.IndexOf(value) > opSort.IndexOf(Op))
+                {
+                    var top = new Node(null, value, root);
+                    (top.LValue as Node).Parent = top;
+                    return top;
+                }
+
+                var node = new Node(this, value, RValue);
+                RValue = node;
+                return node;
             }
 
             public long Evaluate()
@@ -234,7 +242,7 @@ namespace AdventOfCode2020CS
                 }
             }
 
-            return node;
+            return node.root;
         }
     }
 
