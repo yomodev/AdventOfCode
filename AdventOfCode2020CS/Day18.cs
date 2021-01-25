@@ -21,7 +21,7 @@ namespace AdventOfCode2020CS
         public static long Part1(string input)
         {
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
-                .Sum(x => Calc1(x));
+                .Sum(x => BuildTree(x).Evaluate());
 
             return result;
         }
@@ -29,80 +29,11 @@ namespace AdventOfCode2020CS
         public static long Part2(string input)
         {
             var result = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
-                .Sum(x => Calc2(x));
+                .Sum(x => BuildTree(x, new List<Op> { Op.Add, Op.Multiply}).Evaluate());
 
             return result;
         }
 
-        public static long Calc1(string input)
-        {
-            long result = 0;
-            int offset = 0;
-            Op op = Op.Add;
-
-            if (input == null || !input.Any())
-            {
-                throw new ArgumentException();
-            }
-
-            while (offset < input.Length)
-            {
-                switch (input[offset])
-                {
-                    case '(':
-                        {
-                            var end = FindMatchingParenthesis(input, offset);
-                            offset++;
-                            var str = input[offset..end];
-                            var n = Calc1(str);
-                            offset = end + 1;
-                            result = ApplyOp(op, result, n);
-                            break;
-                        }
-                    case ' ':
-                        {
-                            offset++;
-                            break;
-                        }
-                    case '+':
-                        {
-                            op = Op.Add;
-                            offset++;
-                            break;
-                        }
-                    case '*':
-                        {
-                            op = Op.Multiply;
-                            offset++;
-                            break;
-                        }
-                    default:
-                        if (char.IsDigit(input[offset]))
-                        {
-                            var end = FindNumber(input, offset);
-                            var str = input[offset..end];
-                            var n = long.Parse(str);
-                            offset = end + 1;
-                            result = ApplyOp(op, result, n);
-                        }
-                        break;
-                }
-            }
-            return result;
-        }
-
-        private static long ApplyOp(Op op, long a, long b)
-        {
-            switch (op)
-            {
-                case Op.Add:
-                    return a + b;
-                case Op.Multiply:
-                    return a * b;
-                default:
-                    throw new InvalidOperationException(op.ToString());
-            }
-        }
 
         internal static int FindNumber(string str, int start)
         {
@@ -141,12 +72,6 @@ namespace AdventOfCode2020CS
             return i;
         }
 
-        public static long Calc2(string input)
-        {
-            var tree = BuildTree(input);
-            long result = tree.Evaluate();
-            return result;
-        }
 
         interface INode
         {
@@ -213,7 +138,7 @@ namespace AdventOfCode2020CS
                 return node;
             }
 
-            public Node AddOp(Op value)
+            public Node AddOp(Op value, List<Op> opSort = null)
             {
                 if (RValue == null)
                 {
@@ -247,7 +172,7 @@ namespace AdventOfCode2020CS
             }
         }
 
-        private static Node BuildTree(string input)
+        private static Node BuildTree(string input, List<Op> opSort = null)
         {
             if (input == null || !input.Any())
             {
@@ -266,7 +191,7 @@ namespace AdventOfCode2020CS
                             var end = FindMatchingParenthesis(input, offset);
                             offset++;
                             var str = input[offset..end];
-                            node = node.Insert(BuildTree(str));
+                            node = node.Insert(BuildTree(str, opSort));
                             offset = end + 1;
                             break;
                         }
@@ -277,13 +202,13 @@ namespace AdventOfCode2020CS
                         }
                     case '+':
                         {
-                            node = node.AddOp(Op.Add);
+                            node = node.AddOp(Op.Add, opSort);
                             offset++;
                             break;
                         }
                     case '*':
                         {
-                            node = node.AddOp(Op.Multiply);
+                            node = node.AddOp(Op.Multiply, opSort);
                             offset++;
                             break;
                         }
