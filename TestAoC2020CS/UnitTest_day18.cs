@@ -117,7 +117,7 @@ namespace TestAoC2020CS
         {
             var input = File.ReadAllText(@"inputs\day18_1.txt");
             var result = Day18.Part2(input);
-            Assert.AreEqual(0, result);
+            Assert.AreEqual(290726428573651, result);
         }
 
     }

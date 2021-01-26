@@ -103,7 +103,7 @@ namespace AdventOfCode2020CS
             public INode LValue { get; set; }
             public INode RValue { get; set; }
             public Node Parent { get; set; }
-            public Node root { get => Parent?.root ?? this; }
+            public Node Root { get => Parent?.Root ?? this; }
 
             public Node(Node parent = null, Op op = Op.Add, INode left = null, INode right = null)
             {
@@ -120,17 +120,9 @@ namespace AdventOfCode2020CS
                     LValue = value;
                     return this;
                 }
-
-                RValue = value;
-                return this;
-            }
-
-            public Node Insert(INode value)
-            {
-                if (RValue == null)
+                else if (RValue == null)
                 {
-                    RValue = LValue;
-                    LValue = value;
+                    RValue = value;
                     return this;
                 }
 
@@ -150,7 +142,7 @@ namespace AdventOfCode2020CS
 
                 if (opSort == null || opSort.IndexOf(value) > opSort.IndexOf(Op))
                 {
-                    var top = new Node(null, value, root);
+                    var top = new Node(null, value, Root);
                     (top.LValue as Node).Parent = top;
                     return top;
                 }
@@ -162,15 +154,12 @@ namespace AdventOfCode2020CS
 
             public long Evaluate()
             {
-                switch (Op)
+                return Op switch
                 {
-                    case Op.Add:
-                        return LValue.Evaluate() + RValue?.Evaluate() ?? 0;
-                    case Op.Multiply:
-                        return LValue.Evaluate() * RValue?.Evaluate() ?? 1;
-                    default:
-                        throw new InvalidOperationException();
-                }
+                    Op.Add => LValue.Evaluate() + RValue?.Evaluate() ?? 0,
+                    Op.Multiply => LValue.Evaluate() * RValue?.Evaluate() ?? 1,
+                    _ => throw new InvalidOperationException(),
+                };
             }
 
             public override string ToString()
@@ -192,7 +181,7 @@ namespace AdventOfCode2020CS
         {
             if (input == null || !input.Any())
             {
-                throw new ArgumentException();
+                throw new ArgumentException("invalid", nameof(input));
             }
 
             var node = new Node();
@@ -208,7 +197,7 @@ namespace AdventOfCode2020CS
                             offset++;
                             var str = input[offset..end];
                             var sub = BuildTree(str, opSort);
-                            node = node.Insert(sub);
+                            node = node.Add(sub);
                             offset = end + 1;
                             break;
                         }
@@ -242,7 +231,7 @@ namespace AdventOfCode2020CS
                 }
             }
 
-            return node.root;
+            return node.Root;
         }
     }
 
@@ -255,7 +244,7 @@ namespace AdventOfCode2020CS
             Type type = enumerationValue.GetType();
             if (!type.IsEnum)
             {
-                throw new ArgumentException("EnumerationValue must be of Enum type", "enumerationValue");
+                throw new ArgumentException("EnumerationValue must be of Enum type", nameof(enumerationValue));
             }
 
             //Tries to find a DescriptionAttribute for a potential friendly name for the enum
