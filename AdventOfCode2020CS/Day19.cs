@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace AdventOfCode2020CS
 {
@@ -13,8 +10,14 @@ namespace AdventOfCode2020CS
         public static long Part1(string input)
         {
             var parts = input.Split(Environment.NewLine + Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-            var tree = BuildRules(parts.First().Split(Environment.NewLine));
-            var result = parts.Last().Split(Environment.NewLine).Count(x => Match(tree, x));
+            var tree = Parse(
+                parts.First()
+                .Split(Environment.NewLine)
+                .Select(s => s.Split(new char[] { ' ', ':', '"' }, StringSplitOptions.RemoveEmptyEntries))
+                .Select(x => new { key = int.Parse(x.First()), items = x.Skip(1).ToArray() })
+                .ToDictionary(k => k.key, v => v.items)
+            );
+            var result = parts.Last().Split(Environment.NewLine).Count(x => tree.Match(x) == string.Empty);
             return result;
         }
 
@@ -32,7 +35,7 @@ namespace AdventOfCode2020CS
                 for (int i = 0; i < items.Length; i++)
                 {
                     var item = items[i];
-                    if (andList.Any() && (item == "|" || i == items.Length - 1))
+                    if (andList.Any() && item == "|")
                     {
                         orList.Add(new And(andList));
                         andList.Clear();
@@ -42,65 +45,21 @@ namespace AdventOfCode2020CS
                     andList.Add(Parse(input, int.Parse(item)));
                 }
 
+                if (andList.Any())
+                {
+                    orList.Add(new And(andList));
+                }
+
                 return new Or(orList);
             }
 
             return new And(items.Select(x => Parse(input, int.Parse(x))));
         }
-
-        public static IRule BuildRules(string[] strArray)
-        {
-            return Parse(
-                strArray.Select(s => s.Split(new char[] { ' ', ':', '"' }, StringSplitOptions.RemoveEmptyEntries))
-                .Select(x => new { key = int.Parse(x.First()), items = x.Skip(1).ToArray() })
-                .ToDictionary(k => k.key, v => v.items)
-                );
-        }
-
-        public static bool Match(IRule rule, string str)
-        {
-            if (str.Length == 0 && (rule as Sub)?.Rules.Count == 0)
-            {
-                return true;
-            }
-            
-            var cur = str[0];
-            if(str.Length == 1)
-            {
-                return (rule as Letter)?.Contains(cur) ?? false;
-            }
-
-            if (rule.Contains(cur))
-            {
-                bool any = false;
-                var rules = rule.StartsWith(cur);
-                foreach (var sub in rule.StartsWith(cur))
-                {
-                    if (sub is Or || sub is Letter)
-                    {
-
-                    }
-
-                    var andList = (sub as And).Rules.Skip(1);
-                    any |= Match(new And(andList), str[1..]);
-                }
-
-                return any;
-                /* if (str.Length > 1)
-                {
-
-                    return rules.Any(rul => Match(rul, str[1..]));
-                }*/
-            }
-
-            return false;
-        }
     }
 
     public interface IRule
     {
-        bool Contains(char c);
-        IEnumerable<IRule> StartsWith(char c);
+        string Match(string test);
     }
 
     class Letter : IRule
@@ -117,80 +76,65 @@ namespace AdventOfCode2020CS
             return Char.ToString();
         }
 
-        public bool Contains(char c)
+        public string Match(string test)
         {
-            return Char == c;
-        }
-
-        public IEnumerable<IRule> StartsWith(char c)
-        {
-            return Enumerable.Empty<IRule>();
+            return test?.First() == Char ? test[1..] : null;
         }
     }
 
     abstract class Sub
     {
-        bool? containsA;
-        bool? containsB;
+        protected char separator = '?';
+
         public List<IRule> Rules { get; set; }
 
-        public Sub(IEnumerable<IRule> rules)
+        public Sub(IEnumerable<IRule> rules, char separator)
         {
             Rules = rules.ToList();
+            this.separator = separator;
         }
 
-        public bool Contains(char c)
+        public override string ToString()
         {
-            if (c == 'a')
-            {
-                if (!containsA.HasValue)
-                {
-                    containsA = Rules.Any(x => x.Contains(c));
-                }
-                return containsA.Value;
-            }
-
-            if (!containsB.HasValue)
-            {
-                containsB = Rules.Any(x => x.Contains(c));
-            }
-            return containsB.Value;
+            return $"({string.Join(separator, Rules)})";
         }
-
     }
 
     class And : Sub, IRule
     {
-        public And(IEnumerable<IRule> rules) : base(rules) { }
+        public And(IEnumerable<IRule> rules) : base(rules, '+') { }
 
-        public override string ToString()
+        public string Match(string test)
         {
-            return $"({string.Join(" & ", Rules)})";
-        }
-
-        public IEnumerable<IRule> StartsWith(char c)
-        {
-            if (Rules.Count > 0 && Rules.First().Contains(c))
+            foreach (var rule in Rules)
             {
-                return new List<IRule> { new And(Rules) };
+                if (test == null)
+                {
+                    break;
+                }
+                test = rule.Match(test);
             }
-            return Enumerable.Empty<IRule>();
+
+            return test;
         }
+
     }
 
     class Or : Sub, IRule
     {
-        public Or(IEnumerable<IRule> rules) : base(rules) { }
+        public Or(IEnumerable<IRule> rules) : base(rules, '*') { }
 
-        public override string ToString()
+        public string Match(string test)
         {
-            return $"({string.Join(" | ", Rules)})";
+            var results = new List<string>();
+            foreach (var rule in Rules)
+            {
+                results.Add(rule.Match(test));
+            }
+
+            return results.FirstOrDefault(x => x != null);
         }
 
-        public IEnumerable<IRule> StartsWith(char c)
-        {
-            return Rules.Where(x => x.Contains(c) && x.StartsWith(c).Any());
-        }
     }
 
 }

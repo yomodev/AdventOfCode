@@ -1,7 +1,6 @@
 using AdventOfCode2020CS;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using System.Linq;
 
 namespace TestAoC2020CS
 {
@@ -21,7 +20,7 @@ namespace TestAoC2020CS
         {
             var input = File.ReadAllText(@"inputs\day19_1.txt");
             var result = Day19.Part1(input);
-            Assert.AreEqual(0, result);
+            Assert.AreEqual(241, result);
         }
 
     }
