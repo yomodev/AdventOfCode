@@ -10,14 +10,14 @@ namespace TestAoC2020CS
         [TestMethod]
         public void Test_part1()
         {
-            var result = Day01.Part1(File.ReadAllText(@"inputs\day01_1.txt"));
+            var result = Day01.Part1(File.ReadAllText(@"inputs\day01.txt"));
             Assert.AreEqual(935419, result);
         }
 
         [TestMethod]
         public void Test_part2()
         {
-            var result = Day01.Part2(File.ReadAllText(@"inputs\day01_1.txt"));
+            var result = Day01.Part2(File.ReadAllText(@"inputs\day01.txt"));
             Assert.AreEqual(49880012, result);
         }
 

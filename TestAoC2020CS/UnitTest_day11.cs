@@ -18,7 +18,7 @@ namespace TestAoC2020CS
         [TestMethod]
         public void Test_part1()
         {
-            var input = File.ReadAllText(@"inputs\day11_1.txt");
+            var input = File.ReadAllText(@"inputs\day11.txt");
             var result = Day11.Part1(input);
             Assert.AreEqual(2334, result);
         }
@@ -34,7 +34,7 @@ namespace TestAoC2020CS
         [TestMethod]
         public void Test_part2()
         {
-            var input = File.ReadAllText(@"inputs\day11_1.txt");
+            var input = File.ReadAllText(@"inputs\day11.txt");
             var result = Day11.Part2(input);
             Assert.AreEqual(2100, result);
         }

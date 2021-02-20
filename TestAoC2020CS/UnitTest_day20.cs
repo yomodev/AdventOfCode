@@ -5,39 +5,39 @@ using System.IO;
 namespace TestAoC2020CS
 {
     [TestClass]
-    public class UnitTest_day19
+    public class UnitTest_day20
     {
         [TestMethod]
         public void Test_test01()
         {
-            var input = File.ReadAllText(@"inputs\day19_test1.txt");
-            var result = Day19.Part1(input);
+            var input = File.ReadAllText(@"inputs\day20_test1.txt");
+            var result = Day20.Part1(input);
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
         public void Test_part1()
         {
-            var input = File.ReadAllText(@"inputs\day19.txt");
-            var result = Day19.Part1(input);
+            var input = File.ReadAllText(@"inputs\day20.txt");
+            var result = Day20.Part1(input);
             Assert.AreEqual(241, result);
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void Test_test02()
         {
-            var input = File.ReadAllText(@"inputs\day19_test2.txt");
-            var result = Day19.Part2(input);
+            var input = File.ReadAllText(@"inputs\day20_test2.txt");
+            var result = Day20.Part2(input);
             Assert.AreEqual(12, result);
         }
 
         [TestMethod]
         public void Test_part2()
         {
-            var input = File.ReadAllText(@"inputs\day19.txt");
-            var result = Day19.Part2(input);
+            var input = File.ReadAllText(@"inputs\day20.txt");
+            var result = Day20.Part2(input);
             Assert.AreEqual(424, result);
-        }
+        }*/
 
     }
 
