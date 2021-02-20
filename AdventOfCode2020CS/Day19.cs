@@ -10,15 +10,29 @@ namespace AdventOfCode2020CS
         public static long Part1(string input)
         {
             var parts = input.Split(Environment.NewLine + Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-            var tree = Parse(
-                parts.First()
-                .Split(Environment.NewLine)
+            var tree = Parse(RulesDict(parts.First()));
+            var result = parts.Last().Split(Environment.NewLine).Count(x => tree.Match(x));
+            return result;
+        }
+
+        public static long Part2(string input)
+        {
+            var parts = input.Split(Environment.NewLine + Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Dictionary<int, string[]> dict = RulesDict(parts.First());
+
+            dict[8] = "42 | 42 8".Split(' ');
+            dict[11] = "42 31 | 42 11 31".Split(' ');
+            var tree = Parse(dict);
+            var result = parts.Last().Split(Environment.NewLine).Count(x => tree.Match(x));
+            return result;
+        }
+
+        private static Dictionary<int, string[]> RulesDict(string rulesSection)
+        {
+            return rulesSection.Split(Environment.NewLine)
                 .Select(s => s.Split(new char[] { ' ', ':', '"' }, StringSplitOptions.RemoveEmptyEntries))
                 .Select(x => new { key = int.Parse(x.First()), items = x.Skip(1).ToArray() })
-                .ToDictionary(k => k.key, v => v.items)
-            );
-            var result = parts.Last().Split(Environment.NewLine).Count(x => tree.Match(x) == string.Empty);
-            return result;
+                .ToDictionary(k => k.key, v => v.items);
         }
 
         public static IRule Parse(Dictionary<int, string[]> input, int index = 0)
@@ -30,36 +44,46 @@ namespace AdventOfCode2020CS
             }
             else if (items.Contains("|"))
             {
-                var orList = new List<IRule>();
                 var andList = new List<IRule>();
+                var or = new Or(new List<IRule>());
+
                 for (int i = 0; i < items.Length; i++)
                 {
                     var item = items[i];
                     if (andList.Any() && item == "|")
                     {
-                        orList.Add(new And(andList));
+                        or.Rules.Add(new And(andList));
                         andList.Clear();
                         continue;
                     }
 
-                    andList.Add(Parse(input, int.Parse(item)));
+                    var subIndex = int.Parse(item);
+                    var subRule = subIndex == index ? or : Parse(input, subIndex);
+                    andList.Add(subRule);
                 }
 
                 if (andList.Any())
                 {
-                    orList.Add(new And(andList));
+                    or.Rules.Add(new And(andList));
                 }
 
-                return new Or(orList);
+                return or;
             }
 
-            return new And(items.Select(x => Parse(input, int.Parse(x))));
+            var and = new And(new List<IRule>());
+            and.Rules.AddRange(items.Select(x => int.Parse(x)).Select(x => x == index ? and : Parse(input, x)));
+            return and;
         }
     }
 
     public interface IRule
     {
-        string Match(string test);
+        IEnumerable<string> Matches(string test);
+
+        bool Match(string test)
+        {
+            return Matches(test).Any(x => x == string.Empty);
+        }
     }
 
     class Letter : IRule
@@ -76,9 +100,13 @@ namespace AdventOfCode2020CS
             return Char.ToString();
         }
 
-        public string Match(string test)
+        public IEnumerable<string> Matches(string test)
         {
-            return test?.First() == Char ? test[1..] : null;
+            if (test.Any() && test.First() == Char)
+            {
+                return new List<string> { test[1..] };
+            }
+            return Enumerable.Empty<string>();
         }
     }
 
@@ -93,29 +121,33 @@ namespace AdventOfCode2020CS
             Rules = rules.ToList();
             this.separator = separator;
         }
-
-        public override string ToString()
-        {
-            return $"({string.Join(separator, Rules)})";
-        }
     }
 
     class And : Sub, IRule
     {
         public And(IEnumerable<IRule> rules) : base(rules, '+') { }
 
-        public string Match(string test)
+        public IEnumerable<string> Matches(string test)
         {
+            var tests = new List<string> { test };
+            List<string> results = new List<string>();
             foreach (var rule in Rules)
             {
-                if (test == null)
+                results.Clear();
+                foreach (var subTest in tests)
                 {
-                    break;
+                    results.AddRange(rule.Matches(subTest));
                 }
-                test = rule.Match(test);
+
+                if (!results.Any())
+                {
+                    return Enumerable.Empty<string>();
+                }
+
+                tests = results.ToList();
             }
 
-            return test;
+            return results;
         }
 
     }
@@ -124,15 +156,11 @@ namespace AdventOfCode2020CS
     {
         public Or(IEnumerable<IRule> rules) : base(rules, '*') { }
 
-        public string Match(string test)
+        public IEnumerable<string> Matches(string test)
         {
             var results = new List<string>();
-            foreach (var rule in Rules)
-            {
-                results.Add(rule.Match(test));
-            }
-
-            return results.FirstOrDefault(x => x != null);
+            Rules.ForEach(rule => results.AddRange(rule.Matches(test)));
+            return results.Where(x => x != null);
         }
 
     }

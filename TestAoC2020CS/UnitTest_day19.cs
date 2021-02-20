@@ -23,6 +23,22 @@ namespace TestAoC2020CS
             Assert.AreEqual(241, result);
         }
 
+        [TestMethod]
+        public void Test_test02()
+        {
+            var input = File.ReadAllText(@"inputs\day19_test2.txt");
+            var result = Day19.Part2(input);
+            Assert.AreEqual(12, result);
+        }
+
+        [TestMethod]
+        public void Test_part2()
+        {
+            var input = File.ReadAllText(@"inputs\day19_1.txt");
+            var result = Day19.Part2(input);
+            Assert.AreEqual(424, result);
+        }
+
     }
 
 }
