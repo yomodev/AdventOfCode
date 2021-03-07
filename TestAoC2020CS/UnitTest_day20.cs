@@ -23,21 +23,25 @@ namespace TestAoC2020CS
             Assert.AreEqual(66020135789767, result);
         }
 
-        /*[TestMethod]
+        const string monster = @"                  # 
+#    ##    ##    ###
+ #  #  #  #  #  #   ";
+
+        [TestMethod]
         public void Test_test02()
         {
             var input = File.ReadAllText(@"inputs\day20_test2.txt");
-            var result = Day20.Part2(input);
-            Assert.AreEqual(12, result);
+            var result = Day20.Part2(input, monster);
+            Assert.AreEqual(273, result);
         }
 
         [TestMethod]
         public void Test_part2()
         {
             var input = File.ReadAllText(@"inputs\day20.txt");
-            var result = Day20.Part2(input);
+            var result = Day20.Part2(input, monster);
             Assert.AreEqual(424, result);
-        }*/
+        }
 
     }
 

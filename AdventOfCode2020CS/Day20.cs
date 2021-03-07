@@ -12,29 +12,32 @@ namespace AdventOfCode2020CS
         public static long Part1(string input)
         {
             var sections = input.Split(Environment.NewLine + Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-            var tiles = sections.Select(x => new Tile(x));
+            var tiles = sections.Select(x => new SquareTile(x));
 
             var borderDict = tiles.SelectMany(x => x.Borders).Distinct().ToDictionary(k => k, v => new List<int>());
             tiles.ForEach(t => t.Borders.ForEach(b => borderDict[b].Add(t.Id)));
 
-            var result = tiles.Where(x => x.Borders.Sum(b => borderDict[b].Count) == 6).Multiply(x=>x.Id);
+            var result = tiles.Where(x => x.Borders.Sum(b => borderDict[b].Count) == 6).Multiply(x => x.Id);
             return result;
         }
 
+        public static long Part2(string input, string monster)
+        {
+            return 0;
+        }
     }
 
-    internal class Tile
+    internal class SquareTile : Tile
     {
         public int Id { get; set; }
-        public string[] Data { get; private set; }
         public List<string> Borders { get; private set; } = new List<string>();
 
-        public Tile(string str)
+        public SquareTile(string str)
         {
             var lines = str.Split(Environment.NewLine);
             Id = int.Parse(new string(lines.First().Where(x => char.IsDigit(x)).ToArray()));
             Data = lines.Skip(1).ToArray();
-            Assert.AreEqual(100, string.Join(null, Data).Length);
+            Assert.AreEqual(100, Data.Sum(x => x.Length));
 
             Borders.Add(OneBorder(Data.First()));
             Borders.Add(OneBorder(Data.Last()));
@@ -47,5 +50,53 @@ namespace AdventOfCode2020CS
             var rev = new string(v.Reverse().ToArray());
             return string.Compare(v, rev) < 0 ? v : rev;
         }
+
     }
+
+    internal class Tile
+    {
+        public string[] Data { get; protected set; }
+
+        public Tile() { }
+
+        public Tile(string str)
+        {
+
+        }
+
+        public Tile Rotate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tile Flip()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tile RemoveBorder()
+        {
+            throw new NotImplementedException();
+        }
+
+    }
+
+    internal class TileMap : Tile
+    {
+        void AddAt(Tile tile, int x, int y)
+        { }
+
+        Tile Rasterize()
+        {
+            throw new NotImplementedException();
+
+        }
+
+        int Scan()
+        {
+            throw new NotImplementedException();
+
+        }
+    }
+
 }
