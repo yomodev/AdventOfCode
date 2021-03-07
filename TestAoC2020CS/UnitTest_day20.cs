@@ -12,7 +12,7 @@ namespace TestAoC2020CS
         {
             var input = File.ReadAllText(@"inputs\day20_test1.txt");
             var result = Day20.Part1(input);
-            Assert.AreEqual(2, result);
+            Assert.AreEqual(20899048083289, result);
         }
 
         [TestMethod]
@@ -20,7 +20,7 @@ namespace TestAoC2020CS
         {
             var input = File.ReadAllText(@"inputs\day20.txt");
             var result = Day20.Part1(input);
-            Assert.AreEqual(241, result);
+            Assert.AreEqual(66020135789767, result);
         }
 
         /*[TestMethod]
