@@ -1,3 +1,3 @@
 # AdventOfCode
-my AdventOfCode 2020 solutions
+my AdventOfCode solutions
 www.adventofcode.com
