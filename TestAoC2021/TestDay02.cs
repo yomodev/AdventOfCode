@@ -18,11 +18,13 @@ namespace TestAoC2021
         }
 
         [TestMethod]
-        public void TestPart1()
+        [DataRow("day02.txt", 1690020)]
+        [DataRow("day02b.txt", 2073315)]
+        public void TestPart1(string file, int expected)
         {
-            var list = File.ReadAllLines("day02.txt");
+            var list = File.ReadAllLines(file);
             var result = new Day02().Part1(list);
-            Assert.AreEqual(1690020, result);
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
@@ -34,11 +36,13 @@ namespace TestAoC2021
         }
 
         [TestMethod]
-        public void TestPart2()
+        [DataRow("day02.txt", 1408487760)]
+        [DataRow("day02b.txt", 1840311528)]
+        public void TestPart2(string file, int expected)
         {
-            var list = File.ReadAllLines("day02.txt");
+            var list = File.ReadAllLines(file);
             var result = new Day02().Part2(list);
-            Assert.AreEqual(1408487760, result);
+            Assert.AreEqual(expected, result);
         }
     }
 }

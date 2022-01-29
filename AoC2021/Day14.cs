@@ -16,9 +16,10 @@ namespace AoC2021Lib
             return result;
         }
 
-        private List<char> Apply(List<char> list, Dictionary<string, char> dict)
+        private static List<char> Apply(List<char> list, Dictionary<string, char> dict)
         {
-            var len = Math.Min(list.Count,20);// list.Count;
+            //var len = Math.Min(list.Count, 20);// list.Count;
+            var len = list.Count;
             var result = new List<char> { list.First() };
             for (int i = 1; i < len; i++)
             {
@@ -30,7 +31,7 @@ namespace AoC2021Lib
             return result;
         }
 
-        private (List<char>, Dictionary<string, char>) ReadInput(string data)
+        private static (List<char>, Dictionary<string, char>) ReadInput(string data)
         {
             var splitted = data.Split(Environment.NewLine + Environment.NewLine);
             var list = splitted.First().ToList();

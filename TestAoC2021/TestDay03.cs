@@ -12,6 +12,7 @@ namespace TestAoC2021
         [TestMethod]
         [DataRow("day03.test01.txt", 198)]
         [DataRow("day03.txt", 775304)]
+        [DataRow("day03b.txt", 4147524)]
         public void Test1(string file, int expected)
         {
             var list = File.ReadAllLines(file);
@@ -22,6 +23,7 @@ namespace TestAoC2021
         [TestMethod]
         [DataRow("day03.test01.txt", 230)]
         [DataRow("day03.txt", 1370737)]
+        [DataRow("day03b.txt", 3570354)]
         public void Test2(string file, int expected)
         {
             var list = File.ReadAllLines(file);

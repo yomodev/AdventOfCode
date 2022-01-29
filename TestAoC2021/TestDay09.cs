@@ -11,6 +11,7 @@ namespace TestAoC2021
         [TestMethod]
         [DataRow("day09.test01.txt", 15)]
         [DataRow("day09.txt", 550)]
+        [DataRow("day09b.txt", 480)]
         public void Test1(string file, int expected)
         {
             var input = File.ReadLines(file);
@@ -21,6 +22,7 @@ namespace TestAoC2021
         [TestMethod]
         [DataRow("day09.test01.txt", 1134)]
         [DataRow("day09.txt", 1100682)]
+        [DataRow("day09b.txt", 1045660)]
         public void Test2(string file, long expected)
         {
             var input = File.ReadLines(file);
