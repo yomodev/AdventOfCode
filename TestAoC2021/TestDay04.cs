@@ -8,9 +8,9 @@ namespace TestAoC2021
     public class TestDay04
     {
         [TestMethod]
-        [DataRow("day04.test01.txt", 4512)]
-        [DataRow("day04.txt", 51776)]
-        [DataRow("day04b.txt", 8442)]
+        [DataRow(@"data\day04.test01.txt", 4512)]
+        [DataRow(@"data\day04.txt", 51776)]
+        [DataRow(@"data\day04b.txt", 8442)]
         public void Test1(string file, int expected)
         {
             var data = File.ReadAllText(file);
@@ -19,10 +19,10 @@ namespace TestAoC2021
         }
 
         [TestMethod]
-        [DataRow("day04.test01.txt", 1924)]
-        [DataRow("day04.txt", 16830)]
-        [DataRow("day04b.txt", 4590)]
-        [DataRow("day04.stefy.txt", 34726)]
+        [DataRow(@"data\day04.test01.txt", 1924)]
+        [DataRow(@"data\day04.txt", 16830)]
+        [DataRow(@"data\day04b.txt", 4590)]
+        [DataRow(@"data\day04.stefy.txt", 34726)]
         public void Test2(string file, int expected)
         {
             var data = File.ReadAllText(file);

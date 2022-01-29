@@ -18,8 +18,8 @@ namespace TestAoC2021
         }
 
         [TestMethod]
-        [DataRow("day02.txt", 1690020)]
-        [DataRow("day02b.txt", 2073315)]
+        [DataRow(@"data\day02.txt", 1690020)]
+        [DataRow(@"data\day02b.txt", 2073315)]
         public void TestPart1(string file, int expected)
         {
             var list = File.ReadAllLines(file);
@@ -36,8 +36,8 @@ namespace TestAoC2021
         }
 
         [TestMethod]
-        [DataRow("day02.txt", 1408487760)]
-        [DataRow("day02b.txt", 1840311528)]
+        [DataRow(@"data\day02.txt", 1408487760)]
+        [DataRow(@"data\day02b.txt", 1840311528)]
         public void TestPart2(string file, int expected)
         {
             var list = File.ReadAllLines(file);

@@ -9,11 +9,11 @@ namespace TestAoC2021
     public class TestDay12
     {
         [TestMethod]
-        [DataRow("day12.test01.txt", 10)]
-        [DataRow("day12.test02.txt", 19)]
-        [DataRow("day12.test03.txt", 226)]
-        [DataRow("day12.txt", 4775)]
-        [DataRow("day12b.txt", 3713)]
+        [DataRow(@"data\day12.test01.txt", 10)]
+        [DataRow(@"data\day12.test02.txt", 19)]
+        [DataRow(@"data\day12.test03.txt", 226)]
+        [DataRow(@"data\day12.txt", 4775)]
+        [DataRow(@"data\day12b.txt", 3713)]
         public void Test1(string file, int expected)
         {
             var input = File.ReadLines(file);
@@ -22,11 +22,11 @@ namespace TestAoC2021
         }
 
         [TestMethod]
-        [DataRow("day12.test01.txt", 36)]
-        [DataRow("day12.test02.txt", 103)]
-        [DataRow("day12.test03.txt", 3509)]
-        [DataRow("day12.txt", 152480)]
-        [DataRow("day12b.txt", 91292)]
+        [DataRow(@"data\day12.test01.txt", 36)]
+        [DataRow(@"data\day12.test02.txt", 103)]
+        [DataRow(@"data\day12.test03.txt", 3509)]
+        [DataRow(@"data\day12.txt", 152480)]
+        [DataRow(@"data\day12b.txt", 91292)]
         public void Test2(string file, long expected)
         {
             var input = File.ReadLines(file);

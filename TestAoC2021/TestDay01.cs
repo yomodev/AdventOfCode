@@ -18,7 +18,7 @@ namespace TestAoC2021
         }
 
         [TestMethod]
-        [DataRow("day01.txt", 1475)]
+        [DataRow(@"data\day01.txt", 1475)]
         public void TestPart1(string file, int expected)
         {
             var list = File.ReadAllLines(file).Select(Int32.Parse);
@@ -35,7 +35,7 @@ namespace TestAoC2021
         }
 
         [TestMethod]
-        [DataRow("day01.txt", 1516)]
+        [DataRow(@"data\day01.txt", 1516)]
         public void TestPart2(string file, int expected)
         {
             var list = File.ReadAllLines(file).Select(Int32.Parse);

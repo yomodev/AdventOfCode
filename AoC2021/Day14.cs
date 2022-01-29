@@ -7,11 +7,11 @@ namespace AoC2021Lib
 {
     public class Day14
     {
-        public int Part1(string data, int steps)
+        public long Part1(string data, int steps)
         {
             var (list, dict) = ReadInput(data);
             Enumerable.Range(0, steps).ToList().ForEach(x => list = Apply(list, dict));
-            var group = list.GroupBy(k => k, (k, v) => v.Count());
+            var group = list.GroupBy(k => k, (k, v) => v.LongCount());
             var result = group.Max() - group.Min();
             return result;
         }
