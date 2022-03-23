@@ -44,7 +44,7 @@ namespace AoC2021Lib
 			if (overlap < 0) throw new ArgumentOutOfRangeException(nameof(overlap));
 			if (source == null) throw new NullReferenceException(nameof(source));
 
-			List<T> list = new(); 
+			List<T> list = new();
 			//list.Take
 			return list;
 		}
