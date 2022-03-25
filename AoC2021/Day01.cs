@@ -15,6 +15,11 @@ namespace AoC2021Lib
 
         public int Part2(IEnumerable<int> enumerable)
         {
+            return Part1(enumerable.Buffer(3, 2).Select(w => w.Sum()));
+        }
+
+        public int Part2v2(IEnumerable<int> enumerable)
+        {
             return Part1(enumerable
                 .Select((x, i) => new { x, i })
                 .Skip(2)
@@ -25,7 +30,7 @@ namespace AoC2021Lib
         public int Part1v1(IEnumerable<int> enumerable)
         {
             var inc = 0;
-             var prev = enumerable.First();
+            var prev = enumerable.First();
             foreach (var cur in enumerable.Skip(1))
             {
                 if (cur > prev)
@@ -49,7 +54,7 @@ namespace AoC2021Lib
                 return (increment: inc, previous: current);
             }).increment;
         }
-        
+
         public int Part2v1(IEnumerable<int> enumerable)
         {
             var list = enumerable.ToList();

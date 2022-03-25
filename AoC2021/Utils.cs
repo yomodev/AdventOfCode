@@ -38,7 +38,7 @@ namespace AoC2021Lib
             return Range(start, end + 1);
         }
 
-        public static IEnumerable<IEnumerable<T>> Buffer2<T>(this IEnumerable<T> collection, int size, int overlap = 0)
+        public static IEnumerable<IEnumerable<T>> Buffer<T>(this IEnumerable<T> collection, int size, int overlap = 0)
         {
             if (collection == null) throw new NullReferenceException(nameof(collection));
             if (overlap < 0) throw new ArgumentOutOfRangeException(nameof(overlap));
@@ -71,7 +71,7 @@ namespace AoC2021Lib
             yield break;
         }
 
-        public static IEnumerable<IEnumerable<T>> Buffer<T>(this IEnumerable<T> collection, int size, int overlap = 0)
+        public static IEnumerable<IEnumerable<T>> Buffers<T>(this IEnumerable<T> collection, int size, int overlap = 0)
         {
             if (collection == null) throw new NullReferenceException(nameof(collection));
             if (overlap < 0) throw new ArgumentOutOfRangeException(nameof(overlap));

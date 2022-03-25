@@ -39,7 +39,7 @@ namespace TestAoC2021
         {
             var range = Utils.RangeInclusive(1..7);
             var size = 3;
-            var windows = range.Buffer2(size).ToList();
+            var windows = range.Buffer(size).ToList();
             Assert.AreEqual(3, windows.Count);
             Assert.AreEqual(6, windows.First().Sum());
             Assert.AreEqual(15, windows[1].Sum());
@@ -51,7 +51,7 @@ namespace TestAoC2021
         {
             var range = Utils.RangeInclusive(1..7);
             var size = 3;
-            var windows = range.Buffer(size).ToList();
+            var windows = range.Buffers(size).ToList();
             Assert.AreEqual(3, windows.Count);
             Assert.AreEqual(6, windows.First().Sum());
             Assert.AreEqual(15, windows[1].Sum());
@@ -63,7 +63,7 @@ namespace TestAoC2021
         {
             var range = Utils.RangeInclusive(1..7);
             var size = 3;
-            var windows = range.Buffer(size, overlap: 1).ToList();
+            var windows = range.Buffers(size, overlap: 1).ToList();
             Assert.AreEqual(3, windows.Count);
             Assert.AreEqual(6, windows.First().Sum());
             Assert.AreEqual(12, windows[1].Sum());
@@ -75,7 +75,7 @@ namespace TestAoC2021
         {
             var range = Utils.RangeInclusive(1..7);
             var size = 3;
-            var windows = range.Buffer2(size, overlap: 1).ToList();
+            var windows = range.Buffer(size, overlap: 1).ToList();
             Assert.AreEqual(3, windows.Count);
             Assert.AreEqual(6, windows.First().Sum());
             Assert.AreEqual(12, windows[1].Sum());
