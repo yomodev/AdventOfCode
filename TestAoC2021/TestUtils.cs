@@ -35,23 +35,10 @@ namespace TestAoC2021
         }
 
         [TestMethod]
-        public void Buffer2_Test_Ov0()
-        {
-            var range = Utils.RangeInclusive(1..7);
-            var size = 3;
-            var windows = range.Buffer(size).ToList();
-            Assert.AreEqual(3, windows.Count);
-            Assert.AreEqual(6, windows.First().Sum());
-            Assert.AreEqual(15, windows[1].Sum());
-            Assert.AreEqual(7, windows.Last().Single());
-        }
-
-        [TestMethod]
         public void Buffer_Test_Ov0()
         {
             var range = Utils.RangeInclusive(1..7);
-            var size = 3;
-            var windows = range.Buffers(size).ToList();
+            var windows = range.Buffer(size: 3).ToList();
             Assert.AreEqual(3, windows.Count);
             Assert.AreEqual(6, windows.First().Sum());
             Assert.AreEqual(15, windows[1].Sum());
@@ -63,23 +50,56 @@ namespace TestAoC2021
         {
             var range = Utils.RangeInclusive(1..7);
             var size = 3;
-            var windows = range.Buffers(size, overlap: 1).ToList();
+            var windows = range.Buffer(size, overlap: 1).ToList();
             Assert.AreEqual(3, windows.Count);
-            Assert.AreEqual(6, windows.First().Sum());
-            Assert.AreEqual(12, windows[1].Sum());
-            Assert.AreEqual(18, windows.Last().Sum());
+            Assert.AreEqual(6, windows.First().Sum()); // 123
+            Assert.AreEqual(12, windows[1].Sum()); // 345
+            Assert.AreEqual(18, windows.Last().Sum()); // 567
         }
 
         [TestMethod]
-        public void Buffer2_Test_Ov1()
+        public void Buffer_Test_Ov2()
         {
             var range = Utils.RangeInclusive(1..7);
-            var size = 3;
-            var windows = range.Buffer(size, overlap: 1).ToList();
-            Assert.AreEqual(3, windows.Count);
-            Assert.AreEqual(6, windows.First().Sum());
-            Assert.AreEqual(12, windows[1].Sum());
-            Assert.AreEqual(18, windows.Last().Sum());
+            var windows = range.Buffer(size: 3, overlap: 2).ToList();
+            Assert.AreEqual(5, windows.Count);
+            Assert.AreEqual(6, windows[0].Sum());// 123
+            Assert.AreEqual(9, windows[1].Sum()); // 234
+            Assert.AreEqual(12, windows[2].Sum()); // 345
+            Assert.AreEqual(15, windows[3].Sum()); // 456
+            Assert.AreEqual(18, windows[4].Sum()); // 567
+        }
+
+        [TestMethod]
+        public void Buffer_Test_Ov3()
+        {
+            var range = Utils.RangeInclusive(1..7);
+            var windows = range.Buffer(size: 4, overlap: 3).ToList();
+            Assert.AreEqual(4, windows.Count);
+            Assert.AreEqual(10, windows[0].Sum());// 1234
+            Assert.AreEqual(14, windows[1].Sum()); // 2345
+            Assert.AreEqual(18, windows[2].Sum()); // 3456
+            Assert.AreEqual(22, windows[3].Sum()); // 4567
+        }
+
+        [TestMethod]
+        public void Buffer_Test_4Ov1()
+        {
+            var range = Utils.RangeInclusive(1..7);
+            var windows = range.Buffer(size: 4, overlap: 1).ToList();
+            Assert.AreEqual(2, windows.Count);
+            Assert.AreEqual(10, windows[0].Sum());// 1234
+            Assert.AreEqual(22, windows[1].Sum()); // 4567
+        }
+
+        [TestMethod]
+        public void Buffer_Test_4()
+        {
+            var range = Utils.RangeInclusive(1..7);
+            var windows = range.Buffer(size: 4, overlap: 0).ToList();
+            Assert.AreEqual(2, windows.Count);
+            Assert.AreEqual(10, windows[0].Sum());// 1234
+            Assert.AreEqual(18, windows[1].Sum()); // 567
         }
     }
 }

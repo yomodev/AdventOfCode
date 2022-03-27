@@ -43,6 +43,33 @@ namespace AoC2021Lib
             if (collection == null) throw new NullReferenceException(nameof(collection));
             if (overlap < 0) throw new ArgumentOutOfRangeException(nameof(overlap));
             if (size < 2) throw new ArgumentOutOfRangeException(nameof(size));
+            if (overlap >= size) throw new ArgumentOutOfRangeException(nameof(overlap));
+
+            var list = new List<T>();
+            foreach (var item in collection)
+            {
+                list.Add(item);
+
+                if (list.Count == size)
+                {
+                    yield return list.ToList();
+                    list = new List<T>(overlap == 0 
+                        ? Enumerable.Empty<T>() : list.Skip(size - overlap));
+                }
+            }
+
+            if (list.Count != overlap)
+            {
+                yield return list;
+            }
+        }
+
+        public static IEnumerable<IEnumerable<T>> Buffer2<T>(this IEnumerable<T> collection, int size, int overlap = 0)
+        {
+            if (collection == null) throw new NullReferenceException(nameof(collection));
+            if (overlap < 0) throw new ArgumentOutOfRangeException(nameof(overlap));
+            if (size < 2) throw new ArgumentOutOfRangeException(nameof(size));
+            if (overlap > size) throw new ArgumentOutOfRangeException(nameof(overlap));
             var removeFromQueue = 0;
 
             var queue = new Queue<T>();
@@ -67,8 +94,6 @@ namespace AoC2021Lib
             {
                 yield return queue.Skip(removeFromQueue).ToList();
             }
-
-            yield break;
         }
 
         public static IEnumerable<IEnumerable<T>> Buffers<T>(this IEnumerable<T> collection, int size, int overlap = 0)
