@@ -1,7 +1,6 @@
 using AoC2021Lib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using System.Linq;
 
 namespace TestAoC2021
 {
@@ -21,12 +20,12 @@ namespace TestAoC2021
 
         [TestMethod]
         [DataRow(@"data\day14.test01.txt", 2188189693529)]
-        [DataRow(@"data\day14.txt", 0)]
-        [DataRow(@"data\day14b.txt", 0)]
+        [DataRow(@"data\day14.txt", 10002813279337)]
+        [DataRow(@"data\day14b.txt", 2984946368465)]
         public void Test2(string file, long expected)
         {
             var input = File.ReadAllText(file);
-            var result = new Day14().Part2(input, 20);
+            var result = new Day14().Part2(input, 40);
             Assert.AreEqual(expected, result);
         }
     }
