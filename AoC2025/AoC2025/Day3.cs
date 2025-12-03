@@ -41,7 +41,33 @@ public class Day3
 
     private static long FindMax(ReadOnlySpan<char> line, int size)
     {
-        long max = 0;
-        return max;
+        var len = line.Length;
+        var max = new char[size];
+        var offset = 0;
+        for (int i = 0; i < size; i++)
+        {
+            // look for biggest digit from position 0 to len - size
+            offset += FindMaxChar(line.Slice(offset, len - offset - size + i + 1));
+            max[i] = line[offset];
+            offset++;
+        }
+
+        return long.Parse(new string(max));
+    }
+
+    private static int FindMaxChar(ReadOnlySpan<char> span)
+    {
+        var max = span[0];
+        var offset = 0;
+        for (int i = 1; i < span.Length; i++)
+        {
+            if (span[i] > max)
+            {
+                max = span[i];
+                offset = i;
+            }
+        }
+
+        return offset;
     }
 }

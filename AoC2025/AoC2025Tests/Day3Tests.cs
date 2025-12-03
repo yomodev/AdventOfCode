@@ -18,7 +18,7 @@ public class Day3Tests(ITestOutputHelper output)
 
     [Theory]
     [InlineData("Day3.0.txt", 3121910778619)]
-    [InlineData("Day3.1.txt", 0)]
+    [InlineData("Day3.1.txt", 169347417057382)]
     public void Test2(string fileName, long solution)
     {
         var lines = File.ReadLines($"TestData/{fileName}");
