@@ -2,7 +2,7 @@
 
 public class Day1
 {
-    public static int Part1(string[] lines)
+    public static int Part1(IEnumerable<string> lines)
     {
         var pos = 50;
         var size = 100;
@@ -23,7 +23,7 @@ public class Day1
         return sum;
     }
 
-    public static int Part2(string[] lines)
+    public static int Part2(IEnumerable<string> lines)
     {
         var pos = 50;
         var size = 100;

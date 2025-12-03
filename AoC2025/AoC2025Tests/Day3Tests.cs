@@ -4,25 +4,25 @@ using Xunit.Abstractions;
 
 namespace AoC2025Tests;
 
-public class Day1Tests(ITestOutputHelper output)
+public class Day3Tests(ITestOutputHelper output)
 {
     [Theory]
-    [InlineData("Day1.0.txt", 3)]
-    [InlineData("Day1.1.txt", 1066)]
+    [InlineData("Day3.0.txt", 357)]
+    [InlineData("Day3.1.txt", 17109)]
     public void Test1(string fileName, int solution)
     {
         var lines = File.ReadLines($"TestData/{fileName}");
-        var result = Day1.Part1(lines);
+        var result = Day3.Part1(lines);
         result.Should().Be(solution);
     }
 
     [Theory]
-    [InlineData("Day1.0.txt", 6)]
-    [InlineData("Day1.1.txt", 6223)]
-    public void Test2(string fileName, int solution)
+    [InlineData("Day3.0.txt", 3121910778619)]
+    [InlineData("Day3.1.txt", 0)]
+    public void Test2(string fileName, long solution)
     {
         var lines = File.ReadLines($"TestData/{fileName}");
-        var result = Day1.Part2(lines);
+        var result = Day3.Part2(lines);
         result.Should().Be(solution);
     }
 }
