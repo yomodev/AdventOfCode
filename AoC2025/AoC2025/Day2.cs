@@ -40,19 +40,35 @@ public class Day2
     }
 
     public static bool IsValid(long i)
-    {       
+    {
         var str = i.ToString();
         var len = str.Length;
         var half = len / 2;
-        var valid = Enumerable.Range(1, half)
-            .AsParallel()
+        var valid = Enumerable
+            .Range(1, half)
             .Any(x => Match(x, str));
 
         return valid;
     }
 
-    public static bool Match(int x, ReadOnlySpan<char> str)
+    public static bool Match(int len, ReadOnlySpan<char> str)
     {
-        return false;
+        var (d, r) = Math.DivRem(str.Length, len);
+        if (r != 0)
+        {
+            // the slice does not fit evenly
+            return false;
+        }
+
+        var first = str.Slice(0, len);
+        for (int i = 1; i < d; i++)
+        {
+            if (!str.Slice(i * len, len).SequenceEqual(first))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
