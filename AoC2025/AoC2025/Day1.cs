@@ -1,9 +1,4 @@
-﻿
-using System;
-using System.Diagnostics;
-using System.Reflection.Emit;
-
-namespace AoC2025;
+﻿namespace AoC2025;
 
 public class Day1
 {
