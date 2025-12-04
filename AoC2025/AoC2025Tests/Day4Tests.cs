@@ -17,7 +17,7 @@ public class Day4Tests(ITestOutputHelper output)
     }
 
     [Theory]
-    [InlineData("Day4.0.txt", 0)]
+    [InlineData("Day4.0.txt", 43)]
     [InlineData("Day4.1.txt", 0)]
     public void Test2(string fileName, int solution)
     {
