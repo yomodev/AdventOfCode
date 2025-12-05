@@ -1,0 +1,49 @@
+﻿using AoC2025;
+using AwesomeAssertions;
+using Xunit.Abstractions;
+
+namespace AoC2025Tests;
+
+public class Day5Tests(ITestOutputHelper output)
+{
+    [Theory]
+    [InlineData("Day5.0.txt", 3)]
+    [InlineData("Day5.1.txt", 698)]
+    public void Test1(string fileName, int solution)
+    {
+        var (ranges, values) = ReadInput(fileName);
+        var result = Day5.Part1(ranges, values);
+        result.Should().Be(solution);
+    }
+
+    [Theory]
+    [InlineData("Day5.0.txt", 0)]
+    [InlineData("Day5.1.txt", 0)]
+    public void Test2(string fileName, int solution)
+    {
+        var (ranges, values) = ReadInput(fileName);
+        var result = Day5.Part2(ranges, values);
+        result.Should().Be(solution);
+    }
+
+    private static ((long start, long end)[] ranges, long[] values)
+        ReadInput(string fileName)
+    {
+        var text = File
+            .ReadAllText($"TestData/{fileName}")
+            .Split(
+                Environment.NewLine + Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+
+        var ranges = text.First()
+            .Split(Environment.NewLine)
+            .Select(line => line.Split('-'))
+            .Select(r => (start: long.Parse(r[0]), end: long.Parse(r[1])))
+            .ToArray();
+        var values = text.Last()
+            .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
+            .Select(long.Parse)
+            .ToArray();
+
+        return (ranges, values);
+    }
+}
