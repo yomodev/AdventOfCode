@@ -17,12 +17,12 @@ public class Day5Tests(ITestOutputHelper output)
     }
 
     [Theory]
-    [InlineData("Day5.0.txt", 0)]
-    [InlineData("Day5.1.txt", 0)]
+    [InlineData("Day5.0.txt", 14)]
+    [InlineData("Day5.1.txt", 352807801032167)]
     public void Test2(string fileName, int solution)
     {
         var (ranges, values) = ReadInput(fileName);
-        var result = Day5.Part2(ranges, values);
+        var result = Day5.Part2(ranges.ToList());
         result.Should().Be(solution);
     }
 
