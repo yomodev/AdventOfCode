@@ -32,6 +32,43 @@ public class Day6
     public static long Part2(string[] lines)
     {
         var sum = 0L;
+        var nums = new List<long>(lines.Length - 1);
+        var data = lines.Select(x => x.ToCharArray()).ToArray();
+
+        for (int x = data.First().Length - 1; x >= 0; x--)
+        {
+            var line = new char[nums.Capacity];
+            for (int y = 0; y < line.Length; y++)
+            {
+                line[y] = data[y][x];
+            }
+
+            var str = new string(line).Trim();
+            if (str is [])
+            {
+                continue;
+            }
+
+            nums.Add(long.Parse(str));
+            var op = data[^1][x];
+            if (op == '+')
+            {
+                sum += nums.Sum();
+                nums.Clear();
+            }
+            else if (op == '*')
+            {
+                sum += nums.Aggregate(1L, (a, b) => a * b);
+                nums.Clear();
+            }
+        }
+
+        return sum;
+    }
+
+    public static long Part2Old(string[] lines)
+    {
+        var sum = 0L;
         var ops = lines.Last().Split(' ', StringSplitOptions.RemoveEmptyEntries);
         var results = ops.Select(x => x == "+" ? 0L : 1L).ToArray();
         var data = lines.Take(lines.Length - 1).Select(x => x.ToCharArray()).ToArray();
