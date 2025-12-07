@@ -19,7 +19,7 @@ public class Day5Tests(ITestOutputHelper output)
     [Theory]
     [InlineData("Day5.0.txt", 14)]
     [InlineData("Day5.1.txt", 352807801032167)]
-    public void Test2(string fileName, int solution)
+    public void Test2(string fileName, long solution)
     {
         var (ranges, values) = ReadInput(fileName);
         var result = Day5.Part2(ranges.ToList());
