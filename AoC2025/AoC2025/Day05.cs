@@ -1,7 +1,7 @@
 ﻿
 namespace AoC2025;
 
-public class Day5
+public class Day05
 {
     public static int Part1((long start, long end)[] ranges, long[] values)
     {

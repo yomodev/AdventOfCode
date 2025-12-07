@@ -1,6 +1,6 @@
 ﻿namespace AoC2025;
 
-public class Day7
+public class Day07
 {
     public static int Part1(string[] lines)
     {

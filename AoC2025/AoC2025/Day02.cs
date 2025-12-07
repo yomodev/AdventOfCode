@@ -1,6 +1,6 @@
 ﻿namespace AoC2025;
 
-public class Day2
+public class Day02
 {
     public static long Part1(IEnumerable<(long left, long right)> source)
     {

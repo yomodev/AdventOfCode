@@ -1,6 +1,6 @@
 ﻿namespace AoC2025;
 
-public class Day4
+public class Day04
 {
     public static int Part1(IEnumerable<string> lines)
     {
