@@ -1,5 +1,4 @@
-﻿
-namespace AoC2025;
+﻿namespace AoC2025;
 
 public class Day7
 {
@@ -37,16 +36,54 @@ public class Day7
         return sum;
     }
 
-    public static int Part2(string[] lines)
+    public static long Part2(string[] lines)
     {
-        var sum = 0;
-        var data = lines.Select(x => x.ToCharArray()).ToArray();
-        return sum;
+        var s = lines.First().IndexOf('S');
+        var data = new Day7Data(lines);
+        data[1, s] = '|';
+        var result = Explore(data, 2, s);
+        return result;
+    }
+
+    private static long Explore(Day7Data data, int y, int x, Dictionary<(int, int), long>? dict = null)
+    {
+        dict ??= [];
+        if (dict.TryGetValue((x, y), out var res))
+        {
+            return res;
+        }
+
+        // data.Save($"output{y}_{x}_{Guid.NewGuid()}.txt");
+        if (y == data.Height)
+        {
+            return 1;
+        }
+
+        var result = 0L;
+        if (data[y, x] == '^')
+        {
+            var left = data.Clone();
+            left[y - 1, x] = '|';
+            result = Explore(left, y + 2, x - 1, dict);
+            
+            data[y + 1, x] = '|';
+            result += Explore(data, y + 2, x + 1, dict);
+        }
+        else if (data[y, x] == '.')
+        {
+            data[y, x] = '|';
+            data[y + 1, x] = '|';
+            result = Explore(data, y + 2, x, dict);
+        }
+
+        dict[(x, y)] = result;
+        return result;
     }
 }
 
 public class Day7Data(char[] data, int width)
 {
+    private readonly char[] data = data;
     public Day7Data(string[] lines)
         : this([.. lines.SelectMany(x => x.ToCharArray())], lines[0].Length)
     { }
@@ -60,6 +97,19 @@ public class Day7Data(char[] data, int width)
         set => data[y * Width + x] = value;
     }
 
-    public Day7Data Clone()
-        => new([.. data], Width);
+    public Day7Data Clone() => new([.. data], Width);
+
+    public void Save(string fileName)
+    {
+        var text = ToString();
+        File.WriteAllText(fileName, text);
+    }
+
+    public override string ToString()
+    {
+        var text = string.Join(Environment.NewLine, data
+            .Chunk(Width)
+            .Select(line => new string(line)));
+        return text;
+    }
 }

@@ -18,8 +18,8 @@ public class Day7Tests(ITestOutputHelper output)
 
     [Theory]
     [InlineData("Day7.0.txt", 40)]
-    [InlineData("Day7.1.txt", 0)]
-    public void Test2(string fileName, int solution)
+    [InlineData("Day7.1.txt", 47857642990160)]
+    public void Test2(string fileName, long solution)
     {
         var data = File.ReadAllLines($"TestData/{fileName}");
         var result = Day7.Part2(data);
