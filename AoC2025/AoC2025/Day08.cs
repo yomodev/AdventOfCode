@@ -4,23 +4,9 @@ public class Day08
 {
     public static int Part1(IList<(int x, int y, int z)> lines, int connections)
     {
-        var d = new List<(Point p1, Point p2, double distance)>(lines.Count * lines.Count);
         var p = lines.ToDictionary(k => new Point(k.x, k.y, k.z), v => new HashSet<Point> { new(v.x, v.y, v.z) });
-        var total = 0;
+        List<(Point p1, Point p2, double distance)> d = Distances(lines);
 
-        for (int i = 0; i < lines.Count - 1; i++)
-        {
-            for (int j = i + 1; j < lines.Count; j++)
-            {
-                if (i == j) continue;
-                var p1 = new Point(lines[i].x, lines[i].y, lines[i].z);
-                var p2 = new Point(lines[j].x, lines[j].y, lines[j].z);
-                var distance = Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2) + Math.Pow(p2.Z - p1.Z, 2));
-                d.Add((p1, p2, distance));
-            }
-        }
-
-        d.Sort((a, b) => a.distance.CompareTo(b.distance));
         for (int i = 0; i < connections; i++)
         {
             var (p1, p2, distance) = d[i];
@@ -35,15 +21,55 @@ public class Day08
         }
 
         var m = p.Values.Distinct().Select(x => x.Count).OrderByDescending(h => h).Take(3);
-        total = m.Aggregate(1, (a, b) => a * b);
+        var total = m.Aggregate(1, (a, b) => a * b);
         return total;
     }
 
-    public static int Part2(string[] lines)
+    public static int Part2(IList<(int x, int y, int z)> lines)
     {
-        var result = 0;
-        return result;
+        var p = lines.ToDictionary(k => new Point(k.x, k.y, k.z), v => new HashSet<Point> { new(v.x, v.y, v.z) });
+        List<(Point p1, Point p2, double distance)> d = Distances(lines);
+
+        foreach (var (p1, p2, distance) in d)
+        {
+            var set = p[p1];
+
+            if (set.Contains(p2)) continue;
+            set.UnionWith(p[p2]);
+
+            if (set.Count == p.Count)
+            {
+                return p1.X * p2.X;
+            }
+
+            foreach (var item in set.Where(x => x != p1))
+            {
+                p[item] = set;
+            }
+        }
+
+        return 0;
     }
+
+    private static List<(Point p1, Point p2, double distance)> Distances(IList<(int x, int y, int z)> lines)
+    {
+        var d = new List<(Point p1, Point p2, double distance)>(lines.Count * lines.Count);
+        for (int i = 0; i < lines.Count - 1; i++)
+        {
+            for (int j = i + 1; j < lines.Count; j++)
+            {
+                if (i == j) continue;
+                var p1 = new Point(lines[i].x, lines[i].y, lines[i].z);
+                var p2 = new Point(lines[j].x, lines[j].y, lines[j].z);
+                var distance = Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2) + Math.Pow(p2.Z - p1.Z, 2));
+                d.Add((p1, p2, distance));
+            }
+        }
+
+        d.Sort((a, b) => a.distance.CompareTo(b.distance));
+        return d;
+    }
+
 }
 
 public readonly record struct Point
