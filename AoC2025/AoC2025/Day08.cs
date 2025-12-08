@@ -48,7 +48,7 @@ public class Day08
             }
         }
 
-        return 0;
+        throw new InvalidOperationException("something wrong");
     }
 
     private static List<(Point p1, Point p2, double distance)> Distances(IList<(int x, int y, int z)> lines)

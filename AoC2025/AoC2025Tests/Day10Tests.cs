@@ -7,8 +7,8 @@ namespace AoC2025Tests;
 public class Day10Tests(ITestOutputHelper output)
 {
     [Theory]
-    [InlineData("Day08.0.txt", 0)]
-    [InlineData("Day08.1.txt", 0)]
+    [InlineData("Day10.0.txt", 0)]
+    [InlineData("Day10.1.txt", 0)]
     public void Test1(string fileName, int solution)
     {
         var data = File.ReadAllLines($"TestData/{fileName}");
@@ -17,8 +17,8 @@ public class Day10Tests(ITestOutputHelper output)
     }
 
     [Theory]
-    [InlineData("Day08.0.txt", 0)]
-    [InlineData("Day08.1.txt", 0)]
+    [InlineData("Day10.0.txt", 0)]
+    [InlineData("Day10.1.txt", 0)]
     public void Test2(string fileName, int solution)
     {
         var data = File.ReadAllLines($"TestData/{fileName}");
