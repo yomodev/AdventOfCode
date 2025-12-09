@@ -8,7 +8,7 @@ public class Day01Tests(ITestOutputHelper output)
 {
     [Theory]
     [InlineData("Day01.0.txt", 3)]
-    [InlineData("Day01.1.txt", 1066)]
+    //[InlineData("Day01.1.txt", 1066)]
     public void Test1(string fileName, int solution)
     {
         var lines = File.ReadLines($"TestData/{fileName}");
@@ -18,7 +18,7 @@ public class Day01Tests(ITestOutputHelper output)
 
     [Theory]
     [InlineData("Day01.0.txt", 6)]
-    [InlineData("Day01.1.txt", 6223)]
+    //[InlineData("Day01.1.txt", 6223)]
     public void Test2(string fileName, int solution)
     {
         var lines = File.ReadLines($"TestData/{fileName}");

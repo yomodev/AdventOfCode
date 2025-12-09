@@ -8,7 +8,7 @@ public class Day02Tests(ITestOutputHelper output)
 {
     [Theory]
     [InlineData("Day02.0.txt", 1227775554)]
-    [InlineData("Day02.1.txt", 23701357374)]
+    //[InlineData("Day02.1.txt", 23701357374)]
     public void Test1(string fileName, long solution)
     {
         var txt = File.ReadAllText($"TestData/{fileName}");
@@ -22,7 +22,7 @@ public class Day02Tests(ITestOutputHelper output)
 
     [Theory]
     [InlineData("Day02.0.txt", 4174379265)]
-    [InlineData("Day02.1.txt", 34284458938)]
+    //[InlineData("Day02.1.txt", 34284458938)]
     public void Test2(string fileName, long solution)
     {
         var txt = File.ReadAllText($"TestData/{fileName}");

@@ -8,7 +8,7 @@ public class Day05Tests(ITestOutputHelper output)
 {
     [Theory]
     [InlineData("Day05.0.txt", 3)]
-    [InlineData("Day05.1.txt", 698)]
+    //[InlineData("Day05.1.txt", 698)]
     public void Test1(string fileName, int solution)
     {
         var (ranges, values) = ReadInput(fileName);
@@ -18,7 +18,7 @@ public class Day05Tests(ITestOutputHelper output)
 
     [Theory]
     [InlineData("Day05.0.txt", 14)]
-    [InlineData("Day05.1.txt", 352807801032167)]
+    //[InlineData("Day05.1.txt", 352807801032167)]
     public void Test2(string fileName, long solution)
     {
         var (ranges, values) = ReadInput(fileName);

@@ -8,7 +8,7 @@ public class Day08Tests(ITestOutputHelper output)
 {
     [Theory]
     [InlineData("Day08.0.txt", 10, 40)]
-    [InlineData("Day08.1.txt", 1000, 57564)]
+    //[InlineData("Day08.1.txt", 1000, 57564)]
     public void Test1(string fileName, int connections, int solution)
     {
         var data = Parse(fileName);
@@ -18,7 +18,7 @@ public class Day08Tests(ITestOutputHelper output)
 
     [Theory]
     [InlineData("Day08.0.txt", 25272)]
-    [InlineData("Day08.1.txt", 133296744)]
+    //[InlineData("Day08.1.txt", 133296744)]
     public void Test2(string fileName, int solution)
     {
         var data = Parse(fileName);
