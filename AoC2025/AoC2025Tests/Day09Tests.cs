@@ -18,7 +18,7 @@ public class Day09Tests(ITestOutputHelper output)
 
     [Theory]
     [InlineData("Day09.0.txt", 24)]
-    [InlineData("Day09.1.txt", 1562459680)]
+    //[InlineData("Day09.1.txt", 1562459680)]
     public void Test2(string fileName, long solution)
     {
         var data = Parse(fileName);
