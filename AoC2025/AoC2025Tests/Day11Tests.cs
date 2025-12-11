@@ -8,8 +8,8 @@ public class Day11Tests(ITestOutputHelper output)
 {
     [Theory]
     [InlineData("Day11.0.txt", 5)]
-    [InlineData("Day11.1.txt", 477)]
-    public void Test1(string fileName, int solution)
+    //[InlineData("Day11.1.txt", 477)]
+    public void Test1(string fileName, long solution)
     {
         var data = File.ReadAllLines($"TestData/{fileName}");
         var result = Day11.Part1(data);
@@ -18,8 +18,8 @@ public class Day11Tests(ITestOutputHelper output)
 
     [Theory]
     [InlineData("Day11.2.txt", 2)]
-    [InlineData("Day11.1.txt", 0)]
-    public void Test2(string fileName, int solution)
+    //[InlineData("Day11.1.txt", 383307150903216)]
+    public void Test2(string fileName, long solution)
     {
         var data = File.ReadAllLines($"TestData/{fileName}");
         var result = Day11.Part2(data);

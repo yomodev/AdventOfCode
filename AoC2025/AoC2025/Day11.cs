@@ -2,47 +2,53 @@
 
 public class Day11
 {
-    public static int Part1(string[] lines)
+    public static long Part1(string[] lines)
     {
-        var dict = Parse(lines);
-        var paths = new HashSet<string>();
-        Paths(dict, paths, "you");
-        return paths.Where(x => x.EndsWith("out")).Count();
+        var devices = Parse(lines);
+        var paths = Paths(devices, "you");
+        return paths;
     }
 
-    private static void Paths(
-        Dictionary<string, string[]> dict,
-        HashSet<string> paths,
-        string node,
-        string path = "")
+    private static long Paths(
+        Dictionary<string, string[]> devices,
+        string current,
+        string final = "out",
+        Dictionary<string, long>? paths = null)
     {
-        path = $"{path} {node}";
-        paths.Add(path);
-        if (node == "out")
+        if (current == final)
         {
-            // File.AppendAllText("paths.txt", path + Environment.NewLine);
-            return;
+            return 1;
         }
 
-        foreach (var sub in dict[node])
+        paths ??= [];
+        if (paths.TryGetValue(current, out var result))
         {
-            if (paths.Contains($"{path} {sub}"))
-            {
-                continue;
-            }
-
-            Paths(dict, paths, sub, path);
+            return result;
         }
+
+        var total = 0L;
+        if (devices.TryGetValue(current, out var list))
+        {
+            total = list
+                .Sum(next => Paths(devices, next, final, paths));
+        }
+
+        paths[current] = total;
+
+        return total;
     }
 
-    public static int Part2(string[] lines)
+    public static long Part2(string[] lines)
     {
-        var dict = Parse(lines);
-        var paths = new HashSet<string>();
-        Paths(dict, paths, "svr");
-        return paths
-            .Where(x => x.EndsWith("out") && x.Contains("fft") && x.Contains("dac"))
-            .Count();
+        var devices = Parse(lines);
+        var svr_dac = Paths(devices, "svr", "dac");
+        var dac_fft = Paths(devices, "dac", "fft");
+        var fft_out = Paths(devices, "fft", "out");
+        var svr_fft = Paths(devices, "svr", "fft");
+        var fft_dac = Paths(devices, "fft", "dac");
+        var dac_out = Paths(devices, "dac", "out");
+        return svr_dac * dac_fft * fft_out
+            + svr_fft * fft_dac * dac_out;
     }
 
     private static Dictionary<string, string[]> Parse(string[] lines)
